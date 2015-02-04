@@ -80,9 +80,17 @@ Copying to your local machine is done only once. Getting changes and putting the
 
 ### Getting further updates
 
+Just do this once, add the main repo into your local machine
+
 ```
-git fetch origin
-git rebase origin/development mybranch
+git remote add upstream https://github.com/fskreuz/Tree-Trail.git
+```
+
+Now every time you want to get updates from the main repo, do this:
+
+```
+git fetch upstream
+git rebase upstream/development mybranch
 ```
 
 - **fetch** - The command to download changes from the repository
