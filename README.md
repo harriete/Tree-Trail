@@ -24,10 +24,10 @@ Tree-Trail
 
    It will ask for your Github username and password. Just provide accordingly.
    
-3. Locate the file called `httpd.conf` inside the `etc` directory of your XAMPP installation. In that file, look for `DocumentRoot` and append to it:
+3. Locate the file called `httpd.conf` inside the `etc` directory of your XAMPP installation. In that file, look for `DocumentRoot` and **append** to it:
     
     - Windows: `\Tree-Trail\php`
-    - Linux: `Tree-Trail/php`
+    - Linux: `/Tree-Trail/php`
     
     This will make `http://localhost` point to the project's root, instead of everything in `htdocs`, making the `localhost` domain entirely for Tree-Trail
 
@@ -40,6 +40,14 @@ Tree-Trail
     - `OPENSHIFT_MYSQL_DB_NAME` : whatever name you provided your local database
     
     These values are specific to your local machine. During deployment to the server, the server will use *its own values* for these, ensuring that your db passwords will stay yours, while the server passwords stays with it.
+
+5. Go to the `Tree-Trail/php/static` directory and run this:
+
+    ```
+    npm install
+    ```
+    
+    This will download libraries needed for the project (jQuery, Leaflet, etc.) because in the real world, you don't commit libraries into your project.
 
 6. TODO: Include initial DB dump to repo and add import/export instructions.
 
