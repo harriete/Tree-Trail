@@ -1,6 +1,11 @@
 Tree-Trail
 ==========
 
+## TL;DR (Too long; Didn't Read)
+
+- If you're looking for the PHP code for our system, it's under `php`.
+- This is the file layout for OpenShift PaaS (read: our hosting platform). Don't worry, step 3 below will make `http://localhost` point to `Tree-Trail/php`. That way you won't be doing `http://localhost/Tree-Trail/php/whatever` and ruin base urls.
+
 ## Development setup
 
 1. Install the following software:
