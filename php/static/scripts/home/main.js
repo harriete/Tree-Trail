@@ -1,5 +1,5 @@
 require.config({
-  baseUrl: '/static',
+  baseUrl: './static',
   paths: {
     ractive : 'node_modules/ractive/ractive',
     rvc: 'node_modules/rvc/rvc',
