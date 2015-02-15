@@ -49,28 +49,15 @@
 	.inner-container {
 		float: left;
 		margin: 0px 10px 10px;
-	}
-
-	.left {
-		width: 70%;
-	}
-
-	.right {
-		width: 20%;
-	}
-
-	.right > p {
-		text-align: right;
+		width: 46%;
 	}
 
 	p {
 		margin: 12px 15px 12px 15px;
 	}
 
-	ul.tabbed {
-		margin-left: 15px;
-		border-left: 2px dotted #D0D0D0;
-		list-style: none;
+	p.pull-right {
+		text-align: right;
 	}
 
 	.red-text {
@@ -108,82 +95,21 @@
 		background-color:#c9302c;
 		border-color:#ac2925
 	}
-
-	span.pass:after {
-		color: green;
-		content: "Pass";
-	}
-
-	span.fail:after {
-		color: #ac2925;
-		content: "Fail";
-	}
-
-	span.ok:after {
-		color: green;
-		content: "Ok";
-	}
-
-	span.notok:after {
-		color: #ab2925;
-		content: "Not Ok";
-	}
 	</style>
 </head>
 <body>
 	<div class="container">
 		<h1>DataBase Checks</h1>
-		<div class="inner-container left">
-			<p>Asserts</p>
-			<p>
-				check_if_tables_exist<br>
-				<code><?= $check_if_tables_exist["condition"] ?></code>
-			</p>
-			<p>
-				check_for_partial_tables<br>
-				<code><?= $check_for_partial_tables["condition"] ?></code>
-			</p>
-			<p>
-				check_db_table_collations<br>
-				<code><?= $check_db_table_collations["condition"] ?></code><br>
-			</p>
-			<ul class="tabbed"><li>Tables:<br>
-			<?php
-				$tables = array_keys($check_db_table_collations["result"]);
-				foreach($tables as $table):
-					echo "<code>".$table."</code><br>";
-				endforeach;
-			?>
-			</li></ul>
+		<div class="inner-container">
+			<p>Steps</p>
+			<p><?= $test ?></p>
 		</div>
-		<div class="inner-container right">
-			<p>Results</p>
-			<p>
-				&nbsp;<br>
-				<span class="<?= $check_if_tables_exist["result"] ?>"></span>
-			</p>
-			<p>
-				&nbsp;<br>
-				<span class="<?= $check_for_partial_tables["result"] ?>"></span>
-			</p>
-			<p>
-				&nbsp;<br>
-				<span class="<?= $check_db_table_collations["final_result"] ?>"></span>
-			</p>
-			<p>
-				&nbsp;<br>
-				<?php
-					foreach($check_db_table_collations["result"] as $table):
-						echo "<span class='".$table."'></span><br>";
-					endforeach;
-				?>
-			</p>
+		<div class="inner-container">
+			<p class="pull-right">Results</p>
 		</div>
 	</div>
 	<div class="container">
 		<h1>Initialize DataBase</h1>
-		<p>Should <i>any</i> of the checks on the left fail, you should
-		   click the big red button below.</p><br>
 		<p class="red-text">WARNING!</p>
 		<p>Initializing would delete the current tables
 		   and contents of your <code>tree_trail</code> database.<br>
