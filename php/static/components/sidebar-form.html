@@ -1,26 +1,34 @@
 <div class="sidebar {{# visible }}visible{{/}}">
+  <a class="close" on-click="close">&times;</button>
+  
   <h4>Add a Badge</h4>
+
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Name of Place" />
+      <input type="text" class="form-control" placeholder="Name of Place" value="{{input.name}}" />
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" />
+      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.latitude}}" />
     </div>
     <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" />
+      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.longitude}}" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group text-center">
+      <button type="button" class="btn btn-default">Upload photos</button>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Types of trees in the area" />
+      <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{input.treetypes}}" />
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <select class="form-control">
+      <select class="form-control" value="{{input.abundance}}">
         <option>Abundance of trees in the area</option>
         <option>Abundant</option>
         <option>Medium</option>
@@ -30,16 +38,16 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Number of trees in the area" />
+      <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{input.treecount}}" />
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Email address" />
+      <input type="text" class="form-control" placeholder="Email address" value="{{input.email}}" />
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 form-group">
+    <div class="col-sm-12 form-group text-center">
       <button type="button" class="btn btn-primary">Save</button>
     </div>
   </div>
@@ -53,10 +61,11 @@
   width: 30%;
   padding: 15px;
   overflow: scroll;
+  box-shadow: 0 0 30px #000;
   left: 100%;
   top: 50px;
   bottom: 0;
-  transition: all 0.5;
+  transition: all 0.4s;
 }
 .sidebar.visible{
   transform: translate(-100%, 0);
@@ -68,11 +77,25 @@
 component.exports = {
   isolated: true,
   twoway: false,
+  data :{
+    input : {
+      name: '',
+      latitude: '',
+      longitude: '',
+      treetypes:'',
+      abundance:'',
+      treecount:'',
+      email:'',
+    },
+  },
   oninit: function(){
-
   },
   onrender: function(){
     $('[title]').tooltip();
+  },
+  setCoordinates: function(latitude, longitude){
+    this.set('input.latitude', latitude);
+    this.set('input.longitude', longitude);
   },
 };
 

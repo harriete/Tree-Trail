@@ -26,10 +26,21 @@ component.exports = {
 
     this.map = L.map(this.find('.map')).setView([latitude, longitude], zoom);
 
+    // Adds tile layers
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18
     }).addTo(this.map);
+
+    // Listen to map events
+    this.map.on('click', this.handleClick.bind(this));
+  },
+  handleClick: function(event){
+    this.fire('click', event);
+  },
+  addBadge: function(latitude, longitude){
+    if(this.newBadgeMarker) this.map.removeLayer(this.newBadgeMarker);
+    this.newBadgeMarker = L.marker([latitude, longitude]).addTo(this.map);
   }
 };
 </script>

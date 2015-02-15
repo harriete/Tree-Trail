@@ -1,8 +1,15 @@
 <map-controls />
-<map latitude="10.348" longitude="123.748" zoom="9" />
-
-<sidebar-form visible="true" />
-<sidebar-data visible="false" />
+<map 
+  latitude="10.348"
+  longitude="123.748"
+  zoom="9"
+  on-click="handleMapClick"
+/>
+<sidebar-form
+  visible="{{isFormSidebarVisible}}"
+  on-close="hideFormSidebar"
+/>
+<sidebar-data visible="{{isDataSidebarVisible}}" />
 
 <script>
 
@@ -15,8 +22,33 @@ component.exports = {
     'sidebar-form': require('rvc!components/sidebar-form'),
     'sidebar-data': require('rvc!components/sidebar-data'),
   },
+  data :{
+    isFormSidebarVisible: false,
+  },
   oninit : function(){
+    this.on('handleMapClick', this.handleMapClick);
+    this.on('hideFormSidebar', this.hideFormSidebar);
+  },
+  handleMapClick: function(event){
 
+    // Depending on state, we mutiplex what a click actually does.
+    // For now, it only adds badges
+    this.addBadge(event.latlng.lat, event.latlng.lng);
+
+  },
+  addBadge: function(latitude, longitude){
+    // Tell the map to put a marker for add badge
+    this.findComponent('map').addBadge(latitude, longitude);
+
+    // Show the form and update the coordinates
+    this.showFormSidebar();
+    this.findComponent('sidebar-form').setCoordinates(latitude, longitude);
+  },
+  showFormSidebar: function(){
+    this.set('isFormSidebarVisible', true);
+  },
+  hideFormSidebar: function(){
+    this.set('isFormSidebarVisible', false);
   },
 };
 
