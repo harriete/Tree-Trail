@@ -1,5 +1,5 @@
 <div class="map"></div>
-  
+
 <style>
 .map {
   width: 100%;
@@ -8,7 +8,6 @@
 </style>
 
 <script>
-
 var L = require('leaflet');
 
 component.exports = {
@@ -17,14 +16,32 @@ component.exports = {
   data: {
     longitude: 0,
     latitude: 0,
-    zoom: 9
+    zoom: null,
+    minZoom: null,
+    maxZoom: null,
+    northBounds: null,
+    southBounds: null,
+    eastBounds: null,
+    westBounds: null,
   },
-  onrender: function(){
+  onrender: function() {
     var latitude = this.get('latitude');
     var longitude = this.get('longitude');
     var zoom = this.get('zoom');
 
-    this.map = L.map(this.find('.map')).setView([latitude, longitude], zoom);
+    this.map = L.map(this.find('.map'), {
+      center: [
+        this.get('latitude'),
+        this.get('longitude'),
+      ],
+      zoom: this.get('zoom'),
+      minZoom: this.get('minZoom'),
+      maxZoom: this.get('maxZoom'),
+      maxBounds: [
+        [this.get('northBounds'), this.get('eastBounds')],
+        [this.get('southBounds'), this.get('westBounds')],
+      ],
+    });
 
     // Adds tile layers
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -35,13 +52,12 @@ component.exports = {
     // Listen to map events
     this.map.on('click', this.handleClick.bind(this));
   },
-  handleClick: function(event){
+  handleClick: function(event) {
     this.fire('click', event);
   },
-  addBadge: function(latitude, longitude){
-    if(this.newBadgeMarker) this.map.removeLayer(this.newBadgeMarker);
+  addBadge: function(latitude, longitude) {
+    if (this.newBadgeMarker) this.map.removeLayer(this.newBadgeMarker);
     this.newBadgeMarker = L.marker([latitude, longitude]).addTo(this.map);
   }
 };
 </script>
-

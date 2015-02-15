@@ -3,13 +3,22 @@
   latitude="10.348"
   longitude="123.748"
   zoom="9"
+  minZoom="9"
+  maxZoom="18"
+  northBounds="11.448"
+  southBounds="9.348"
+  eastBounds="124.748"
+  westBounds="123.248"
   on-click="handleMapClick"
 />
 <sidebar-form
   visible="{{isFormSidebarVisible}}"
   on-close="hideFormSidebar"
 />
-<sidebar-data visible="{{isDataSidebarVisible}}" />
+<sidebar-data 
+  visible="{{isDataSidebarVisible}}"
+  on-edit=""
+/>
 
 <script>
 

@@ -48,7 +48,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group text-center">
-      <button type="button" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-primary" on-click="addBadge">Save</button>
     </div>
   </div>
 </div>
@@ -76,7 +76,6 @@
 
 component.exports = {
   isolated: true,
-  twoway: false,
   data :{
     input : {
       name: '',
@@ -89,6 +88,7 @@ component.exports = {
     },
   },
   oninit: function(){
+    this.on('addBadge', this.addBadge);
   },
   onrender: function(){
     $('[title]').tooltip();
@@ -96,6 +96,11 @@ component.exports = {
   setCoordinates: function(latitude, longitude){
     this.set('input.latitude', latitude);
     this.set('input.longitude', longitude);
+  },
+  addBadge: function(event){
+    event.original.preventDefault();
+    var badgeData = this.get('input');
+    // Submit form
   },
 };
 
