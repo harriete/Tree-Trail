@@ -43,6 +43,7 @@ Tree-Trail
     - `OPENSHIFT_MYSQL_DB_USERNAME` : whatever user you use on your local machine
     - `OPENSHIFT_MYSQL_DB_PASSWORD` : whatever password you provided to that local user
     - `OPENSHIFT_MYSQL_DB_NAME` : whatever name you provided your local database
+    - `OPENSHIFT_SECRET_TOKEN` : a random 32-character string for encryption purposes
     
     These values are specific to your local machine. During deployment to the server, the server will use *its own values* for these, ensuring that your db passwords will stay yours, while the server passwords stays with it.
 
