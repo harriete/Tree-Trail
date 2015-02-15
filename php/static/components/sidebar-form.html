@@ -1,0 +1,79 @@
+<div class="sidebar {{# visible }}visible{{/}}">
+  <h4>Add a Badge</h4>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <input type="text" class="form-control" placeholder="Name of Place" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 form-group">
+      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" />
+    </div>
+    <div class="col-sm-6 form-group">
+      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <input type="text" class="form-control" placeholder="Types of trees in the area" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <select class="form-control">
+        <option>Abundance of trees in the area</option>
+        <option>Abundant</option>
+        <option>Medium</option>
+        <option>Scarce</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <input type="text" class="form-control" placeholder="Number of trees in the area" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <input type="text" class="form-control" placeholder="Email address" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <button type="button" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.sidebar{
+  color: #FFF;
+  position: fixed;
+  background: #666;
+  width: 30%;
+  padding: 15px;
+  overflow: scroll;
+  left: 100%;
+  top: 50px;
+  bottom: 0;
+  transition: all 0.5;
+}
+.sidebar.visible{
+  transform: translate(-100%, 0);
+}
+</style>
+
+<script>
+
+component.exports = {
+  isolated: true,
+  twoway: false,
+  oninit: function(){
+
+  },
+  onrender: function(){
+    $('[title]').tooltip();
+  },
+};
+
+</script>

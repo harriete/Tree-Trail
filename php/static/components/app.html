@@ -1,0 +1,23 @@
+<map-controls />
+<map latitude="10.348" longitude="123.748" zoom="9" />
+
+<sidebar-form visible="true" />
+<sidebar-data visible="false" />
+
+<script>
+
+component.exports = {
+  isolated: true,
+  twoway: false,
+  components: {
+    'map': require('rvc!components/map'),
+    'map-controls': require('rvc!components/map-controls'),
+    'sidebar-form': require('rvc!components/sidebar-form'),
+    'sidebar-data': require('rvc!components/sidebar-data'),
+  },
+  oninit : function(){
+
+  },
+};
+
+</script>
