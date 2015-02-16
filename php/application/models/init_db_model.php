@@ -45,7 +45,7 @@ class Init_db_model extends CI_Model {
 	}
 
 	function check_db_table_collations() {
-		$query = "SHOW TABLE STATUS FROM sonsonaja_cpe429e";//.$this->db_name;
+		$query = "SHOW TABLE STATUS FROM ".$this->db_name;
 		$final_result = true;
 
 		$this->db_results["check_db_table_collations"]["condition"] = "table->Collation === utf8_general_ci";
@@ -53,14 +53,15 @@ class Init_db_model extends CI_Model {
 		$r = $this->db->query($query);
 		if($r->num_rows() > 0):
 			foreach($r->result() as $row):
-				if(!($test_result = (($row->Collation === "utf8_general_ci")?"true":"false"))):
+				if(!($test_result = (($row->Collation === "utf8_general_ci")?"pass":"fail"))):
 					$final_result = false;
 				endif;
 
-				$this->db_results["check_db_table_collations"]["result"][$row->Name] = $test_result;
+				$this->db_results["check_db_table_collations"]["result"][$row->Name] = ($test_result)?"pass":"fail";
 			endforeach;
 		else:
-			$this->db_results["check_db_table_collations"]["result"]["No table"] = false;
+			$this->db_results["check_db_table_collations"]["result"]["No table"] = "fail";
+			$final_result = false;
 		endif;
 		$this->db_results["check_db_table_collations"]["final_result"] = ($final_result)?"pass":"fail";
 
