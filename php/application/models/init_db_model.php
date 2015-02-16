@@ -29,19 +29,44 @@ class Init_db_model extends CI_Model {
 		$tables = $this->db->list_tables();
 		$diff = array_filter(array_diff($this->db_tables, $tables));
 
-		return empty($diff);
+		$this->db_results["check_if_tables_exist"]["condition"] = "Ideal DB Tables == Actual DB Tables";
+		$result = empty($diff);
+		$this->db_results["check_if_tables_exist"]["result"] = ($result)?"pass":"fail";
 	}
 
 	function check_for_partial_tables() {
 		$tables = $this->db->list_tables();
 		$diff = array_filter(array_diff($this->db_tables, $tables));
 
-		return !$this->check_if_tables_exist() &&
-			   count($diff) != count($this->db_tables);
+		$this->db_results["check_for_partial_tables"]["condition"] = "No of Ideal DB Tables != No of Actual DB Tables";
+		$result = (!$this->check_if_tables_exist() && count($diff) != count($this->db_tables));
+		$this->db_results["check_for_partial_tables"]["result"] = ($result)?"pass":"fail";
+	}
+
+	function check_db_table_collations() {
+		$query = "SHOW TABLE STATUS FROM sonsonaja_cpe429e";//.$this->db_name;
+		$final_result = true;
+
+		$this->db_results["check_db_table_collations"]["condition"] = "table->Collation === utf8_general_ci";
+		$r = $this->db->query($query);
+		if($r->num_rows() > 0):
+			foreach($r->result() as $row):
+				if(!($test_result = (($row->Collation === "utf8_general_ci")?"true":"false"))):
+					$final_result = false;
+				endif;
+
+				$this->db_results["check_db_table_collations"][$row->Name] = $test_result;
+			endforeach;
+		else:
+			$this->db_results["check_db_table_collations"]["No table"] = false;
+		endif;
+
+		$r->free_result();
+
+		return $final_result;
 	}
 
 	function modify_db() {
-		// $this->dbforge->create_database("tree_trail");
 		$query = "ALTER DATABASE `".$this->db_name."`
 				  CHARACTER SET utf8
 				  COLLATE utf8_general_ci";
