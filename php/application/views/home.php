@@ -15,6 +15,9 @@
       width : 100%;
       height: 100%;
     }
+    body{
+      padding-top: 50px;
+    }
   </style>
 
 </head>
