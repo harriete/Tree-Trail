@@ -30,6 +30,7 @@ class Init_db_model extends CI_Model {
 		$diff = array_filter(array_diff($this->db_tables, $tables));
 
 		$this->db_results["check_if_tables_exist"]["condition"] = "Ideal DB Tables == Actual DB Tables";
+
 		$result = empty($diff);
 		$this->db_results["check_if_tables_exist"]["result"] = ($result)?"pass":"fail";
 	}
@@ -39,6 +40,7 @@ class Init_db_model extends CI_Model {
 		$diff = array_filter(array_diff($this->db_tables, $tables));
 
 		$this->db_results["check_for_partial_tables"]["condition"] = "No of Ideal DB Tables != No of Actual DB Tables";
+
 		$result = (!$this->check_if_tables_exist() && count($diff) != count($this->db_tables));
 		$this->db_results["check_for_partial_tables"]["result"] = ($result)?"pass":"fail";
 	}
@@ -48,6 +50,7 @@ class Init_db_model extends CI_Model {
 		$final_result = true;
 
 		$this->db_results["check_db_table_collations"]["condition"] = "table->Collation === utf8_general_ci";
+
 		$r = $this->db->query($query);
 		if($r->num_rows() > 0):
 			foreach($r->result() as $row):
@@ -55,15 +58,14 @@ class Init_db_model extends CI_Model {
 					$final_result = false;
 				endif;
 
-				$this->db_results["check_db_table_collations"][$row->Name] = $test_result;
+				$this->db_results["check_db_table_collations"]["result"][$row->Name] = $test_result;
 			endforeach;
 		else:
-			$this->db_results["check_db_table_collations"]["No table"] = false;
+			$this->db_results["check_db_table_collations"]["result"]["No table"] = false;
 		endif;
+		$this->db_results["check_db_table_collations"]["final_result"] = ($final_result)?"pass":"fail";
 
 		$r->free_result();
-
-		return $final_result;
 	}
 
 	function modify_db() {
@@ -71,7 +73,11 @@ class Init_db_model extends CI_Model {
 				  CHARACTER SET utf8
 				  COLLATE utf8_general_ci";
 
-		return $this->db->query($query);
+		$result = ($this->db->query($query));
+		$this->db_results["modify_db"]["query"] = $query;
+		$this->db_results["modify_db"]["result"] = ($result)?"ok":"notok";
+
+		return $result;
 	}
 
 	function drop_tables() {
