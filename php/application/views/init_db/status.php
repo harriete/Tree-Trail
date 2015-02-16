@@ -49,7 +49,14 @@
 	.inner-container {
 		float: left;
 		margin: 0px 10px 10px;
-		width: 46%;
+	}
+
+	.left {
+		width: 70%;
+	}
+
+	.right {
+		width: 20%;
 	}
 
 	p {
@@ -95,17 +102,42 @@
 		background-color:#c9302c;
 		border-color:#ac2925
 	}
+
+	span.pass:after {
+		color: green;
+		content: "Pass";
+	}
+
+	span.fail:after {
+		color: #ac2925;
+		content: "Fail";
+	}
 	</style>
 </head>
 <body>
 	<div class="container">
 		<h1>DataBase Checks</h1>
-		<div class="inner-container">
+		<div class="inner-container left">
 			<p>Steps</p>
-			<p><?= $test ?></p>
+			<p>
+				check_if_tables_exist<br>
+				<code><?= $check_if_tables_exist["condition"] ?></code>
+			</p>
+			<p>
+				check_for_partial_tables<br>
+				<code><?= $check_for_partial_tables["condition"] ?></code>
+			</p>
 		</div>
-		<div class="inner-container">
+		<div class="inner-container right">
 			<p class="pull-right">Results</p>
+			<p class="pull-right">
+				&nbsp;<br>
+				<span class="<?= $check_if_tables_exist["result"] ?>"></span>
+			</p>
+			<p class="pull-right">
+				&nbsp;<br>
+				<span class="<?= $check_for_partial_tables["result"] ?>"></span>
+			</p>
 		</div>
 	</div>
 	<div class="container">
