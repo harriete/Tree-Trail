@@ -5,7 +5,7 @@ class Init_db extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 
-		$this->load->model("init_db_model", "init_db");
+		$this->load->model("init_db_model", "db_checker");
 	}
 
 	public function index() {
