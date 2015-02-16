@@ -16,6 +16,7 @@ class Init_db extends CI_Controller {
 		$this->db_checker->check_db_table_collations();
 
 		$data = $this->db_checker->results();
+		$data["db_name"] = $this->db_checker->db_name();
 		$this->load->view("init_db/status", $data);
 	}
 
