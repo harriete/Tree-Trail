@@ -38,17 +38,6 @@
 		color: #888;
 	}
 
-	pre {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
 	.container {
 		float: left;
 		margin: 10px;
@@ -76,6 +65,12 @@
 
 	p {
 		margin: 12px 15px 12px 15px;
+	}
+
+	ul.tabbed {
+		margin-left: 15px;
+		border-left: 2px dotted #D0D0D0;
+		list-style: none;
 	}
 
 	.red-text {
@@ -150,8 +145,16 @@
 			</p>
 			<p>
 				check_db_table_collations<br>
-				<code><?= $check_db_table_collations["condition"] ?></code>
+				<code><?= $check_db_table_collations["condition"] ?></code><br>
 			</p>
+			<ul class="tabbed"><li>Tables:<br>
+			<?php
+				$tables = array_keys($check_db_table_collations["result"]);
+				foreach($tables as $table):
+					echo "<code>".$table."</code><br>";
+				endforeach;
+			?>
+			</li></ul>
 		</div>
 		<div class="inner-container right">
 			<p>Results</p>
@@ -166,6 +169,14 @@
 			<p>
 				&nbsp;<br>
 				<span class="<?= $check_db_table_collations["final_result"] ?>"></span>
+			</p>
+			<p>
+				&nbsp;<br>
+				<?php
+					foreach($check_db_table_collations["result"] as $table):
+						echo "<span class='".$table."'></span><br>";
+					endforeach;
+				?>
 			</p>
 		</div>
 	</div>
