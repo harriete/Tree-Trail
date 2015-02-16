@@ -6,7 +6,6 @@ class Init_db_model extends CI_Model {
 		parent::__construct();
 
 		$this->load->database();
-		$this->load->dbforge();
 		$this->load->dbutil();
 
 		$this->db_name = getenv("OPENSHIFT_MYSQL_DB_NAME");
