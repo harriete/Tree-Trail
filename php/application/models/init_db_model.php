@@ -82,10 +82,19 @@ class Init_db_model extends CI_Model {
 
 	function drop_tables() {
 		$tables = $this->db->list_tables();
+		$query = "DROP TABLE IF EXISTS `?`";
+		$final_result = true;
 
+		$this->db_results["drop_tables"]["query"] = $query;
 		foreach($tables as $table):
-			$this->dbforge->drop_table($table);
+			$result = $this->db->query($query, array($table));
+			$this->db_results["drop_tables"]["result"][$table] = ($result)?"ok":"notok";
+			$final_result = !$result;
+			$result->free_result();
 		endforeach;
+		$this->db_results["drop_tables"]["final_result"] = ($final_result)?"ok":"notok";
+
+		return $final_result;
 	}
 
 	function create_tables() {
