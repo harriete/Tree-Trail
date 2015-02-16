@@ -70,12 +70,12 @@
 		width: 20%;
 	}
 
-	p {
-		margin: 12px 15px 12px 15px;
+	.right > p {
+		text-align: right;
 	}
 
-	p.pull-right {
-		text-align: right;
+	p {
+		margin: 12px 15px 12px 15px;
 	}
 
 	.red-text {
@@ -123,13 +123,23 @@
 		color: #ac2925;
 		content: "Fail";
 	}
+
+	span.ok:after {
+		color: green;
+		content: "Ok";
+	}
+
+	span.notok:after {
+		color: #ab2925;
+		content: "Not Ok";
+	}
 	</style>
 </head>
 <body>
 	<div class="container">
 		<h1>DataBase Checks</h1>
 		<div class="inner-container left">
-			<p>Steps</p>
+			<p>Asserts</p>
 			<p>
 				check_if_tables_exist<br>
 				<code><?= $check_if_tables_exist["condition"] ?></code>
@@ -138,21 +148,31 @@
 				check_for_partial_tables<br>
 				<code><?= $check_for_partial_tables["condition"] ?></code>
 			</p>
+			<p>
+				check_db_table_collations<br>
+				<code><?= $check_db_table_collations["condition"] ?></code>
+			</p>
 		</div>
 		<div class="inner-container right">
-			<p class="pull-right">Results</p>
-			<p class="pull-right">
+			<p>Results</p>
+			<p>
 				&nbsp;<br>
 				<span class="<?= $check_if_tables_exist["result"] ?>"></span>
 			</p>
-			<p class="pull-right">
+			<p>
 				&nbsp;<br>
 				<span class="<?= $check_for_partial_tables["result"] ?>"></span>
+			</p>
+			<p>
+				&nbsp;<br>
+				<span class="<?= $check_db_table_collations["final_result"] ?>"></span>
 			</p>
 		</div>
 	</div>
 	<div class="container">
 		<h1>Initialize DataBase</h1>
+		<p>Should <i>any</i> of the checks on the left fail, you should
+		   click the big red button below.</p><br>
 		<p class="red-text">WARNING!</p>
 		<p>Initializing would delete the current tables
 		   and contents of your <code>tree_trail</code> database.<br>
