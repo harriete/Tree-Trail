@@ -14,6 +14,15 @@ class Init_db_model extends CI_Model {
 			"comments", "locations",
 			"photos", "users"
 		);
+		$this->db_results = array();
+	}
+
+	function results() {
+		return $this->db_results;
+	}
+
+	function reset_results() {
+		$this->db_results = array();
 	}
 
 	function check_if_tables_exist() {
