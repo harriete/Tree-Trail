@@ -24,6 +24,10 @@ class Init_db_model extends CI_Model {
 		$this->db_results = array();
 	}
 
+	function db_name() {
+		return $this->db_name;
+	}
+
 	function check_if_tables_exist() {
 		$tables = $this->db->list_tables();
 		$diff = array_filter(array_diff($this->db_tables, $tables));

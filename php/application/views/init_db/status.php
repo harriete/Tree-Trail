@@ -186,7 +186,7 @@
 		   click the big red button below.</p><br>
 		<p class="red-text">WARNING!</p>
 		<p>Initializing would delete the current tables
-		   and contents of your <code>tree_trail</code> database.<br>
+		   and contents of your <code><?= $db_name ?></code> database.<br>
 		   Initialize anyway?</p>
 		<p><a class="btn" href="">Sure! Go ahead.</a></p>
 	</div>
