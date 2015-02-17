@@ -25,6 +25,7 @@ class Init_db extends CI_Controller {
 
 		$this->db_checker->modify_db();
 		$this->db_checker->drop_tables();
+		$this->db_checker->create_tables();
 
 		$data = $this->db_checker->results();
 		$this->load->view("init_db/init", $data);

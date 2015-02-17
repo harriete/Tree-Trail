@@ -64,7 +64,7 @@ class Init_db_model extends CI_Model {
 				$this->db_results["check_db_table_collations"]["result"][$row->Name] = ($test_result)?"pass":"fail";
 			endforeach;
 		else:
-			$this->db_results["check_db_table_collations"]["result"]["No table"] = "fail";
+			$this->db_results["check_db_table_collations"]["result"]["No tables found"] = "fail";
 			$final_result = false;
 		endif;
 		$this->db_results["check_db_table_collations"]["final_result"] = ($final_result)?"pass":"fail";
@@ -80,29 +80,75 @@ class Init_db_model extends CI_Model {
 		$result = ($this->db->query($query));
 		$this->db_results["modify_db"]["query"] = $query;
 		$this->db_results["modify_db"]["result"] = ($result)?"ok":"notok";
-
-		return $result;
 	}
 
 	function drop_tables() {
 		$tables = $this->db->list_tables();
-		$query = "DROP TABLE IF EXISTS `?`";
+		$query = "DROP TABLE `";
 		$final_result = true;
 
-		$this->db_results["drop_tables"]["query"] = $query;
-		foreach($tables as $table):
-			$result = $this->db->query($query, array($table));
-			$this->db_results["drop_tables"]["result"][$table] = ($result)?"ok":"notok";
-			$final_result = !$result;
-			$result->free_result();
-		endforeach;
+		$this->db_results["drop_tables"]["query"] = $query."?`";
+		if(count($tables) > 0):
+			foreach($tables as $table):
+				$result = $this->db->query($query.$table."`");
+				$this->db_results["drop_tables"]["result"][$table] = ($result)?"ok":"notok";
+				if(!$result):
+					$final_result = false;
+				endif;
+			endforeach;
+		else:
+			$this->db_results["drop_tables"]["result"]["No tables found"] = "ok";
+			$final_result = true;
+		endif;
 		$this->db_results["drop_tables"]["final_result"] = ($final_result)?"ok":"notok";
-
-		return $final_result;
 	}
 
 	function create_tables() {
-		
+		$query = "CREATE TABLE IF NOT EXISTS `?` (...)";
+		$table_query = array(
+			"comments"	=> "CREATE TABLE IF NOT EXISTS `comments` (
+							`id` int(11) NOT NULL AUTO_INCREMENT,
+							`comment` text NOT NULL,
+							`parent_id` int(11) NOT NULL,
+							`owner_id` int(11) NOT NULL,
+							`date` datetime NOT NULL,
+							PRIMARY KEY (`id`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;",
+			"locations"	=> "CREATE TABLE IF NOT EXISTS `locations` (
+							`id` int(11) NOT NULL AUTO_INCREMENT,
+							`name` varchar(1024) NOT NULL,
+							`latitude` float NOT NULL,
+							`longitude` float NOT NULL,
+							`added_by` datetime NOT NULL,
+							`added_on` datetime NOT NULL,
+							PRIMARY KEY (`id`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;",
+			"photos"	=> "CREATE TABLE IF NOT EXISTS `photos` (
+							`id` int(11) NOT NULL AUTO_INCREMENT,
+							`image_path` text NOT NULL,
+							`caption` text NOT NULL,
+							`uploader_ip` int(11) NOT NULL,
+							`location_id` int(11) NOT NULL,
+							PRIMARY KEY (`id`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;",
+			"users"		=> "CREATE TABLE IF NOT EXISTS `users` (
+							`id` int(11) NOT NULL AUTO_INCREMENT,
+							`username` varchar(32) NOT NULL,
+							`password` varchar(32) NOT NULL,
+							PRIMARY KEY (`id`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
+		);
+		$final_result = true;
+
+		$this->db_results["create_tables"]["query"] = $query;
+		foreach($this->db_tables as $table):
+			$result = $this->db->query($table_query[$table]);
+			$this->db_results["create_tables"]["result"][$table] = ($result)?"ok":"notok";
+			if(!$result):
+				$final_result = false;
+			endif;
+		endforeach;
+		$this->db_results["create_tables"]["final_result"] = ($final_result)?"ok":"notok";
 	}
 
 }
