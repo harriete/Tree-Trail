@@ -1,4 +1,5 @@
 <map-controls />
+
 <map 
   latitude="10.348"
   longitude="123.748"
@@ -9,18 +10,29 @@
   southBounds="9.348"
   eastBounds="124.748"
   westBounds="123.248"
+  markerData="{{markerData}}"
   on-click="handleMapClick"
 />
+
 <sidebar-form
   visible="{{isFormSidebarVisible}}"
   on-close="hideFormSidebar"
 />
+
 <sidebar-data 
   visible="{{isDataSidebarVisible}}"
   on-edit=""
 />
 
 <script>
+
+var badges = $.get('/badges');
+var ABUNDANCE_TO_COLOR = {
+  abundant : 'green',
+  average : 'yellow',
+  severe : 'red',
+  created : 'blue',
+};
 
 component.exports = {
   isolated: true,
@@ -33,10 +45,29 @@ component.exports = {
   },
   data :{
     isFormSidebarVisible: false,
+    badges: [],
+  },
+  computed: {
+    markerData: function(){
+      return this.get('badges').map(function(badge){
+        return {
+          id : badge.id,
+          latitude: badge.latitude,
+          longitude: badge.longitude,
+          color: ABUNDANCE_TO_COLOR[badge.abundance]
+        };
+      });
+    },
   },
   oninit : function(){
+    var component = this;
+
     this.on('handleMapClick', this.handleMapClick);
     this.on('hideFormSidebar', this.hideFormSidebar);
+
+    badges.then(function(badgeData){
+      component.set('badges', badgeData);
+    });
   },
   handleMapClick: function(event){
 

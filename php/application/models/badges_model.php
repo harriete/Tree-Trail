@@ -2,14 +2,16 @@
 
 class Badges_model extends CI_Model {
 
+  private $table_name = 'locations';
 
   public function create($data = []){
 
   }
 
   public function read($id = null){
-    return ['rar'];
-
+    return $this->db
+                ->get($this->table_name)
+                ->result();
   }
 
   public function update($data = []){
