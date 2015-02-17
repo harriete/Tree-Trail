@@ -358,5 +358,11 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = getenv('OPENSHIFT_HAPROXY_IP');
 
 
+function __autoload($class){
+  if(substr($class, 0, 3) === 'CI_') return;
+  if(!file_exists($file = APPPATH . 'core/' . $class . EXT)) return;
+  include $file;
+}
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */
