@@ -8,5 +8,10 @@ HOME=$OPENSHIFT_DATA_DIR
 PROJECT=$OPENSHIFT_REPO_DIR
 NPM=$HOME/node_modules/.bin/npm
 
+# Installing backend dependences
+cd $PROJECT/php/application/helpers
+composer install
+
+# Installing front-end dependencies
 cd $PROJECT/php/static
 $NPM install
