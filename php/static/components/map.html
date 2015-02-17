@@ -13,6 +13,7 @@ var L = require('leaflet');
 component.exports = {
   isolated: true,
   twoway: false,
+  existingMarkers: {},
   data: {
     longitude: 0,
     latitude: 0,
@@ -23,12 +24,17 @@ component.exports = {
     southBounds: null,
     eastBounds: null,
     westBounds: null,
+    markerData: [],
+    markerDirectory: '/static/images',
   },
   onrender: function() {
+    var component = this;
     var latitude = this.get('latitude');
     var longitude = this.get('longitude');
     var zoom = this.get('zoom');
+    var iconPath = this.get('markerDirectory');
 
+    // Create the map
     this.map = L.map(this.find('.map'), {
       center: [
         this.get('latitude'),
@@ -41,6 +47,28 @@ component.exports = {
         [this.get('northBounds'), this.get('eastBounds')],
         [this.get('southBounds'), this.get('westBounds')],
       ],
+    });
+
+    // Add the markers
+    this.observe('markerData', function(markerData) {
+      markerData.forEach(function(marker) {
+
+        console.log(marker);
+
+        component.existingMarkers[marker.id] = L.marker([
+          marker.latitude,
+          marker.longitude,
+        ], {
+          icon: L.icon({
+            iconUrl: [iconPath, '/', marker.color, '.png'].join(''),
+          }),
+        });
+
+        component.existingMarkers[marker.id].addTo(component.map);
+
+      });
+
+
     });
 
     // Adds tile layers

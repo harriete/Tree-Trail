@@ -2,8 +2,14 @@
 
 class Badges extends REST_Controller {
 
+  public function __construct(){
+    parent::__construct();
+
+    $this->load->model('Badges_model', 'badges');
+  }
+
   public function index_get(){
-    $this->response(['test']);
+    $this->response($this->badges->read());
   }
 
   public function index_post(){
