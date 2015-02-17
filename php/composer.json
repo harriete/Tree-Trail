@@ -1,0 +1,12 @@
+{
+    "name": "vagrant/helpers",
+    "require": {
+        "vlucas/valitron": "~1.2"
+    },
+    "authors": [
+        {
+            "name": "Joseph",
+            "email": "fskreuz@gmail.com"
+        }
+    ]
+}
