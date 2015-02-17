@@ -135,6 +135,7 @@ class Init_db_model extends CI_Model {
 							`id` int(11) NOT NULL AUTO_INCREMENT,
 							`username` varchar(32) NOT NULL,
 							`password` varchar(32) NOT NULL,
+							`type` int(11) NOT NULL DEFAULT '0',
 							PRIMARY KEY (`id`)
 							) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;"
 		);
