@@ -21,8 +21,8 @@
   </style>
 
 </head>
-<body>
-<?php echo '<p>' . anchor('dashboard', 'Admininstrator Dashboard link') . '</p>'; ?>
+<body> 
+
   <div class="content"></div>
 
   <script src="<?= base_url('static/node_modules/jquery/dist/jquery.min.js'); ?>"></script>
