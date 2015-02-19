@@ -1,42 +1,31 @@
 Tree-Trail
 ==========
 
-## TL;DR (Too long; Didn't Read)
-
-- If you're looking for the PHP code for our system, it's under `php`.
-- This is the file layout for OpenShift PaaS (read: our hosting platform). Don't worry, step 3 below will make `http://localhost` point to `Tree-Trail/php`. That way you won't be doing `http://localhost/Tree-Trail/php/whatever` and ruin base urls.
-
 ## Development setup
+
+This should be the only things you need to do to get a minimum setup.
 
 1. Install the following software:
     
     - [XAMPP](https://www.apachefriends.org/download.html)
-    - NodeJS
-        - For Windows users, just [download the msi installer](http://nodejs.org/download/) appropriate for your system.
-        - For Linux users, [install via your respective package managers.](https://github.com/joyent/node/wiki/installing-node.js-via-package-manager).
-    - Git
-        - For Windows users, [install msysGit](https://msysgit.github.io/)
-        - For Linux users, install via your respective package managers.
+    - [NodeJS](http://nodejs.org/download/) appropriate for your system.
+    - [Git](https://msysgit.github.io/)
 
-2. Fork the repository on Github and clone your fork of the repository:
+2. Fork the repository on Github. On the main repo, click on "Fork" on the top right.
+
+3. Clone your fork of the repository:
    
-    ```
-    # Usually on Windows, path is C:\XAMPP\htdocs or D:\XAMPP\htdocs depending on where you installed
-    # Linux users usually have it in /opt/lampp/htdocs
+    ```shell
+    # Usually C:\XAMPP\htdocs or D:\XAMPP\htdocs, depending on where you placed it
     cd [/path/to/your/XAMPP/htdocs] 
     git clone https://github.com/[your username]/Tree-Trail.git
     ```
 
-   It will ask for your Github username and password. Just provide accordingly.
+   It will ask for your Github username and password *but the password will not print on the terminal*. Just provide accordingly.
    
-3. Locate the file called `httpd.conf` inside the `etc` directory of your XAMPP installation. In that file, look for `DocumentRoot` and **append** to it:
-    
-    - Windows: `\Tree-Trail\php`
-    - Linux: `/Tree-Trail/php`
-    
-    This will make `http://localhost` point to the project's root, instead of everything in `htdocs`, making the `localhost` domain entirely for Tree-Trail
+4. Stop Apache. Locate the file called `httpd.conf` inside your XAMPP installation. In that file, look for `DocumentRoot`. It should have `C:/XAMPP/htdocs` by default. Append `/Tree-Trail/php` to it. It should now be `C:/XAMPP/htdocs/Tree-Trail/php`
 
-4. Add the following environment variables and values to your system:
+5. Add the following environment variables and values to your system:
 
     - `OPENSHIFT_MYSQL_DB_HOST` : `localhost`
     - `OPENSHIFT_MYSQL_DB_PORT` : `3306`
@@ -47,24 +36,13 @@ Tree-Trail
     
     These values are specific to your local machine. During deployment to the server, the server will use *its own values* for these, ensuring that your db passwords will stay yours, while the server passwords stays with it.
 
-5. Go to the `Tree-Trail/php/static` directory and run this:
+6. Go to the `Tree-Trail/php/static` directory and run this:
 
-    ```
+    ```shell
     npm install
     ```
-    
-    This will download libraries needed for the project (jQuery, Leaflet, etc.) because in the real world, you don't commit libraries into your project.
 
-6. TODO: Include initial DB dump to repo and add import/export instructions.
-
-## Running
-
-Run XAMPP 
-
-- On Windows, start Apache and MySQL using the XAMPP Control Panel
-- On Linux, you can do `sudo /path/to/lampp start`
-
-Once running, visit `http://localhost/`. You know when its working whegn you see a map and a sidebar.
+7. Start Apache and visit `http://localhost/init_db`. This page should contain instructions on setting up your db.
 
 ## Contributing code
 
@@ -74,7 +52,7 @@ At the top right of the repo page should be a "Fork" button. Click that and this
 
 ### Getting a copy for the first time (like in step 2 above)
 
-```
+```shell
 cd [/path/to/your/XAMPP/htdocs] 
 git clone https://github.com/[your username]/Tree-Trail.git
 ```
@@ -88,13 +66,13 @@ Copying to your local machine is done only once. Getting changes and putting the
 
 Just do this once, add the main repo into your local machine
 
-```
+```shell
 git remote add upstream https://github.com/fskreuz/Tree-Trail.git
 ```
 
 Now every time you want to get updates from the main repo, do this:
 
-```
+```shell
 git fetch upstream
 git rebase upstream/development mybranch
 ```
@@ -111,13 +89,13 @@ Rebase works by taking the repository changes and putting your changes on top of
 
 Once you have made your changes in the code, your code will need to be put to the "staging area". In order to do that, for each file do:
 
-```
+```shell
 git add path/to/file/you/want/added
 ```
 
 You can select whatever file you need to stage. you may even leave out some files. Now, in order for those staged files to be committed to history, do:
 
-```
+```shell
 git commit -m "MESSAGE HERE"
 ```
 
@@ -125,7 +103,7 @@ Replace `MESSAGE HERE` with a meaningful message describing your changes.
 
 ### Sharing your changes
 
-```
+```shell
 git push origin mybranch
 ```
 
