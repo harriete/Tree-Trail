@@ -52,9 +52,6 @@ component.exports = {
     // Add the markers
     this.observe('markerData', function(markerData) {
       markerData.forEach(function(marker) {
-
-        console.log(marker);
-
         component.existingMarkers[marker.id] = L.marker([
           marker.latitude,
           marker.longitude,
