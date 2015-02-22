@@ -5,7 +5,7 @@
 
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Name of Place" value="{{name}}" />
+      <input type="text" class="form-control" placeholder="Name of Place" value="{{input.name}}" />
       {{# errors.name.length }}
       <ul class="alert alert-warning">
         {{#errors.name}}<li>{{.}}</li>{{/}}
@@ -15,7 +15,7 @@
   </div>
   <div class="row">
     <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" value="{{latitude}}" />
+      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.latitude}}" />
       {{# errors.latitude.length }}
       <ul class="alert alert-warning">
         {{#errors.latitude}}<li>{{.}}</li>{{/}}
@@ -23,7 +23,7 @@
       {{/}}
     </div>
     <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" value="{{longitude}}" />
+      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.longitude}}" />
       {{# errors.longitude.length }}
       <ul class="alert alert-warning">
         {{#errors.longitude}}<li>{{.}}</li>{{/}}
@@ -38,7 +38,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{types}}" />
+      <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{input.types}}" />
       {{# errors.types.length }}
       <ul class="alert alert-warning">
         {{#errors.types}}<li>{{.}}</li>{{/}}
@@ -48,7 +48,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <select class="form-control" value="{{abundance}}">
+      <select class="form-control" value="{{input.abundance}}">
         <option value="placeholder">Abundance of trees in the area</option>
         <option value="abundant">Abundant</option>
         <option value="average">Average</option>
@@ -63,7 +63,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{quantity}}" />
+      <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{input.quantity}}" />
       {{# errors.quantity.length }}
       <ul class="alert alert-warning">
         {{#errors.quantity}}<li>{{.}}</li>{{/}}
@@ -73,7 +73,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Email address" value="{{email}}" />
+      <input type="text" class="form-control" placeholder="Email address" value="{{input.email}}" />
       {{# errors.email.length }}
       <ul class="alert alert-warning">
         {{#errors.email}}<li>{{.}}</li>{{/}}
@@ -95,7 +95,7 @@
   background: rgba(34, 34, 34, 0.9);
   width: 35%;
   padding: 15px;
-  overflow: scroll;
+  overflow-y: auto;
   box-shadow: 0 0 30px #000;
   left: 100%;
   top: 50px;
@@ -113,6 +113,7 @@
 
 <script>
 
+var Badges = require('stores/badges');
 var validate = require('validate');
 var validationRules = {
   name: {
@@ -149,13 +150,15 @@ var validationRules = {
 component.exports = {
   isolated: true,
   data :{
-    name: '',
-    latitude: '',
-    longitude: '',
-    types:'',
-    abundance:'',
-    quantity:'',
-    email:'',
+    input:{
+      name: '',
+      latitude: '',
+      longitude: '',
+      types:'',
+      abundance:'',
+      quantity:'',
+      email:'',
+    },
     errors : null,
   },
   oninit: function(){
@@ -165,21 +168,15 @@ component.exports = {
     $('[title]').tooltip();
   },
   setCoordinates: function(latitude, longitude){
-    this.set('latitude', latitude);
-    this.set('longitude', longitude);
+    this.set('input.latitude', latitude);
+    this.set('input.longitude', longitude);
   },
   addBadge: function(event){
     event.original.preventDefault();
-    var badgeData = this.get();
+    var badgeData = this.get('input');
     var errors = validate(badgeData, validationRules);
-
-    this.set('errors', null);
-
-    if(errors){
-      this.set('errors', errors);
-    } else {
-      alert('pass');
-    }
+    this.set('errors', errors ? errors : null);
+    if(!errors) Badges.create(badgeData);
   },
 };
 

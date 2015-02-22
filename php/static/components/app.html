@@ -26,7 +26,9 @@
 
 <script>
 
-var badges = $.get('/badges');
+var BadgeStore = require('stores/badges');
+
+
 var ABUNDANCE_TO_COLOR = {
   abundant : 'green',
   average : 'yellow',
@@ -65,8 +67,8 @@ component.exports = {
     this.on('handleMapClick', this.handleMapClick);
     this.on('hideFormSidebar', this.hideFormSidebar);
 
-    badges.then(function(badgeData){
-      component.set('badges', badgeData);
+    BadgeStore.on('change', function(badgeData){
+      component.set('badges', $.extend(true, [], badgeData));
     });
   },
   handleMapClick: function(event){
