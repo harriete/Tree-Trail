@@ -2,55 +2,92 @@
   <a class="close" on-click="close">&times;</button>
   
   <h4>Add a Badge</h4>
+  <form on-submit="addBadge">
 
-  <div class="row">
-    <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Name of Place" value="{{input.name}}" />
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <input type="text" class="form-control" placeholder="Name of Place" value="{{input.name}}" />
+        {{# errors.name.length }}
+        <ul class="alert alert-warning">
+          {{#errors.name}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.latitude}}" />
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <input type="text" class="form-control" placeholder="Latitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.latitude}}" />
+        {{# errors.latitude.length }}
+        <ul class="alert alert-warning">
+          {{#errors.latitude}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
+      <div class="col-sm-6 form-group">
+        <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.longitude}}" />
+        {{# errors.longitude.length }}
+        <ul class="alert alert-warning">
+          {{#errors.longitude}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-    <div class="col-sm-6 form-group">
-      <input type="text" class="form-control" placeholder="Longitude" title="Tip: Click on the map to automatically get coordinates" value="{{input.longitude}}" />
+    <div class="row">
+      <div class="col-sm-12 form-group text-center">
+        <button type="button" class="btn btn-default">Upload photos</button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group text-center">
-      <button type="button" class="btn btn-default">Upload photos</button>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{input.types}}" />
+        {{# errors.types.length }}
+        <ul class="alert alert-warning">
+          {{#errors.types}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{input.treetypes}}" />
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <select class="form-control" value="{{input.abundance}}">
+          <option value="placeholder">Abundance of trees in the area</option>
+          <option value="abundant">Abundant</option>
+          <option value="average">Average</option>
+          <option value="scarce">Scarce</option>
+        </select>
+        {{# errors.abundance.length }}
+        <ul class="alert alert-warning">
+          {{#errors.abundance}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group">
-      <select class="form-control" value="{{input.abundance}}">
-        <option>Abundance of trees in the area</option>
-        <option>Abundant</option>
-        <option>Medium</option>
-        <option>Scarce</option>
-      </select>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{input.quantity}}" />
+        {{# errors.quantity.length }}
+        <ul class="alert alert-warning">
+          {{#errors.quantity}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{input.treecount}}" />
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <input type="text" class="form-control" placeholder="Email address" value="{{input.email}}" />
+        {{# errors.email.length }}
+        <ul class="alert alert-warning">
+          {{#errors.email}}<li>{{.}}</li>{{/}}
+        </ul>
+        {{/}}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group">
-      <input type="text" class="form-control" placeholder="Email address" value="{{input.email}}" />
+    <div class="row">
+      <div class="col-sm-12 form-group text-center">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 form-group text-center">
-      <button type="button" class="btn btn-primary" on-click="addBadge">Save</button>
-    </div>
-  </div>
+  </form>
 </div>
 
 <style>
@@ -58,9 +95,9 @@
   color: #FFF;
   position: fixed;
   background: rgba(34, 34, 34, 0.9);
-  width: 30%;
+  width: 35%;
   padding: 15px;
-  overflow: scroll;
+  overflow-y: auto;
   box-shadow: 0 0 30px #000;
   left: 100%;
   top: 50px;
@@ -70,22 +107,61 @@
 .sidebar.visible{
   transform: translate(-100%, 0);
 }
+.alert{
+  padding: 5px 5px 5px 2em;
+  margin: 5px 0 0;
+}
 </style>
 
 <script>
 
+var Badges = require('stores/badges');
+var validate = require('validate');
+var validationRules = {
+  name: {
+    presence: true,
+  },
+  latitude: {
+    presence: true,
+    numericality: true,
+  },
+  longitude: {
+    presence: true,
+    numericality: true,
+  },
+  types: {
+    presence: true,
+  },
+  abundance: {
+    presence: true,
+    inclusion: ['abundant', 'average', 'scarce'],
+  },
+  quantity: {
+    presence: true,
+    numericality : {
+      onlyInteger: true,
+      greaterThanOrEqualTo: 0,
+    },
+  },
+  email: {
+    presence: true,
+    email: true,
+  },
+};
+
 component.exports = {
   isolated: true,
   data :{
-    input : {
+    input:{
       name: '',
       latitude: '',
       longitude: '',
-      treetypes:'',
+      types:'',
       abundance:'',
-      treecount:'',
+      quantity:'',
       email:'',
     },
+    errors : null,
   },
   oninit: function(){
     this.on('addBadge', this.addBadge);
@@ -99,8 +175,18 @@ component.exports = {
   },
   addBadge: function(event){
     event.original.preventDefault();
+    var component = this;
     var badgeData = this.get('input');
-    // Submit form
+    var errors = validate(badgeData, validationRules);
+    this.set('errors', errors ? errors : null);
+    if(!errors){
+      component.fire('submit');
+      Badges.create(badgeData).then(function(response){
+        component.fire('submitsuccess', response);
+      }, function(error){
+        component.fire('submiterror', error);
+      });
+    }
   },
 };
 

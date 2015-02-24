@@ -1,8 +1,67 @@
-<div class="host">sidebar data</div>
+<div class="sidebar {{# visible }}visible{{/}}">
+  <a href="#" class="close" on-click="deleteMarker"><span class="glyphicon glyphicon-trash"></span></button>
+
+  <dl>
+    <dt>{{badge.name}}</dt>
+    <dd>Longitude: {{badge.longitude}}</dd>
+    <dd>Latitude: {{badge.latitude}}</dd>
+    <dd>Types of trees: {{badge.types}}</dd>
+    <dd>Abundance: {{badge.abundance}}</dd>
+    <dd>Approximate tree population: {{badge.quantity}}</dd>
+  </dl>
+</div>
 
 <style>
-.host{
-  display: none;
+.sidebar{
+  color: #FFF;
+  position: fixed;
+  background: rgba(34, 34, 34, 0.9);
+  width: 35%;
+  padding: 15px;
+  overflow-y: auto;
+  box-shadow: 0 0 30px #000;
+  left: 100%;
+  top: 50px;
+  bottom: 0;
+  transition: all 0.4s;
 }
-
+.sidebar.visible{
+  transform: translate(-100%, 0);
+}
+.close{
+  color: #FFF;
+}
 </style>
+
+<script>
+
+var Badges = require('stores/badges');
+var CurrentBadge = require('stores/badge-current');
+
+component.exports = {
+  data: {
+    badge: {}
+  },
+  oninit: function() {
+    var component = this;
+    
+    this.on('deleteMarker', this.deleteMarker);
+    
+    component.set('badge', CurrentBadge.getState());
+    CurrentBadge.on('change', function(data) {
+      component.set('badge', data);
+    });
+  },
+  deleteMarker: function(event){
+    var component = this;
+    event.original.preventDefault();
+    Badges.delete({
+      id: this.get('badge.id'),
+    }).then(function(response){
+      component.fire('badgedeletesuccess', response);
+    }, function(error){
+      component.fire('badgedeleteerror', error);
+    });
+  },
+};
+</script>
