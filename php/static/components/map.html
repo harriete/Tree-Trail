@@ -5,15 +5,32 @@
   width: 100%;
   height: 100%;
 }
+.leaflet-marker-icon {
+  margin-left: -12.5px;
+  margin-top: -41px;
+}
+.leaflet-marker-shadow {
+  margin-left: -12.5px;
+  margin-top: -41px;
+}
 </style>
 
 <script>
 var L = require('leaflet');
+var BadgeStore = require('stores/badges');
+var ABUNDANCE_TO_COLOR = {
+  abundant: 'green',
+  average: 'yellow',
+  scarce: 'red',
+  created: 'blue',
+};
 
 component.exports = {
   isolated: true,
   twoway: false,
-  existingMarkers: {},
+  existingMarkers: [],
+  map: null,
+  newBadgeMarker: null,
   data: {
     longitude: 0,
     latitude: 0,
@@ -25,14 +42,14 @@ component.exports = {
     eastBounds: null,
     westBounds: null,
     markerData: [],
-    markerDirectory: '/static/images',
+    assetsDirectory: '/static/images'
   },
   onrender: function() {
     var component = this;
     var latitude = this.get('latitude');
     var longitude = this.get('longitude');
     var zoom = this.get('zoom');
-    var iconPath = this.get('markerDirectory');
+    var iconPath = this.get('assetsDirectory');
 
     // Create the map
     this.map = L.map(this.find('.map'), {
@@ -49,23 +66,35 @@ component.exports = {
       ],
     });
 
+    component.set('badges', BadgeStore.getState());
+    BadgeStore.on('change', function(badgeData) {
+      component.set('badges', badgeData.map(function(badge) {
+        return {
+          id: badge.id,
+          latitude: badge.latitude,
+          longitude: badge.longitude,
+          color: ABUNDANCE_TO_COLOR[badge.abundance]
+        };
+      }));
+    });
+
     // Add the markers
-    this.observe('markerData', function(markerData) {
-      markerData.forEach(function(marker) {
-        component.existingMarkers[marker.id] = L.marker([
-          marker.latitude,
-          marker.longitude,
-        ], {
-          icon: L.icon({
-            iconUrl: [iconPath, '/', marker.color, '.png'].join(''),
-          }),
-        });
-
-        component.existingMarkers[marker.id].addTo(component.map);
-
+    this.observe('badges', function(markerData) {
+      // Wipe the map off first
+      component.removeNewBadgeMarker();
+      component.existingMarkers.forEach(function(marker) {
+        component.removeMarker(marker);
       });
 
-
+      // Create new markers
+      component.existingMarkers = markerData.map(function(marker) {
+        return component
+          .createMarker(marker.latitude, marker.longitude, iconPath, marker.color)
+          .addTo(component.map)
+          .on('click', function(event) {
+            component.fire('markerclick', marker.id);
+          });
+      });
     });
 
     // Adds tile layers
@@ -80,9 +109,26 @@ component.exports = {
   handleClick: function(event) {
     this.fire('click', event);
   },
-  addBadge: function(latitude, longitude) {
-    if (this.newBadgeMarker) this.map.removeLayer(this.newBadgeMarker);
+  moveNewBadgeMarker: function(latitude, longitude) {
+    this.removeNewBadgeMarker();
+    this.addNewBadgemarker(latitude, longitude);
+  },
+  addNewBadgemarker: function(latitude, longitude) {
     this.newBadgeMarker = L.marker([latitude, longitude]).addTo(this.map);
+  },
+  removeNewBadgeMarker: function() {
+    if (this.newBadgeMarker) this.removeMarker(this.newBadgeMarker);
+  },
+  removeMarker: function(marker) {
+    this.map.removeLayer(marker);
+  },
+  createMarker: function(latitude, longitude, path, color) {
+    return L.marker([latitude, longitude], {
+      icon: L.icon({
+        iconUrl: [path, '/', color, '.png'].join(''),
+        shadowUrl: [path, '/marker-shadow.png'].join('')
+      }),
+    });
   }
 };
 </script>

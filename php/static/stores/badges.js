@@ -1,37 +1,52 @@
-define(function(require){
+define(function(require) {
 
   var EventEmitter = require('eventemitter');
 
-  function Store(){
+  function Store() {
     EventEmitter.call(this);
     this.data = [];
     this.read();
   }
 
   Store.prototype = $.extend(Object.create(EventEmitter.prototype), {
-    create: function(badgeData){
+    create: function(badgeData) {
       var store = this;
       return $.post('/badges', badgeData)
-        .then(function(response){
+        .then(function(response) {
           store.data.push(response);
           store.trigger('change', [store.data]);
-        }, function(error){
+        }, function(error) {
 
         });
     },
-    read: function(){
+    read: function() {
       var store = this;
       return $.get('/badges')
-        .then(function(response){
+        .then(function(response) {
           store.data = response;
           store.trigger('change', [store.data]);
-        }, function(error){
+        }, function(error) {
 
         });
     },
-    update: function(){},
-    delete: function(){},
-    getState: function(){
+    update: function() {},
+    delete: function(badgeData) {
+      var store = this;
+      return $.ajax({
+        type: 'delete',
+        url: '/badges/' + badgeData.id,
+      }).then(function() {
+        var dataLength = store.data.length;
+        while(dataLength--)
+          if(store.data[dataLength].id === badgeData.id)
+            store.data.splice(dataLength, 1);
+        store.trigger('change', [store.data]);
+      }, function() {
+
+      });
+
+    },
+    getState: function() {
       return this.data;
     },
   });

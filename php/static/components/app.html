@@ -10,23 +10,25 @@
   southBounds="9.348"
   eastBounds="124.748"
   westBounds="123.248"
-  markerData="{{markerData}}"
   on-click="handleMapClick"
+  on-markerclick="handleMarkerClick"
 />
 
 <sidebar-form
   visible="{{isFormSidebarVisible}}"
   on-close="hideFormSidebar"
+  on-submitsuccess="hideFormSidebar"
 />
 
 <sidebar-data 
   visible="{{isDataSidebarVisible}}"
-  on-edit=""
+  on-markerEdit=""
+  on-badgedeletesuccess="handleBadgeDeleteSuccess"
 />
 
 <script>
 
-var BadgeStore = require('stores/badges');
+var CurrentBadgeStore = require('stores/badge-current');
 
 
 var ABUNDANCE_TO_COLOR = {
@@ -47,29 +49,18 @@ component.exports = {
   },
   data :{
     isFormSidebarVisible: false,
+    isDataSidebarVisible: false,
     badges: [],
-  },
-  computed: {
-    markerData: function(){
-      return this.get('badges').map(function(badge){
-        return {
-          id : badge.id,
-          latitude: badge.latitude,
-          longitude: badge.longitude,
-          color: ABUNDANCE_TO_COLOR[badge.abundance]
-        };
-      });
-    },
   },
   oninit : function(){
     var component = this;
 
     this.on('handleMapClick', this.handleMapClick);
     this.on('hideFormSidebar', this.hideFormSidebar);
+    this.on('handleMarkerClick', this.handleMarkerClick);
+    this.on('handleMarkerDelete', this.handleMarkerDelete);
+    this.on('handleBadgeDeleteSuccess', this.handleBadgeDeleteSuccess);
 
-    BadgeStore.on('change', function(badgeData){
-      component.set('badges', $.extend(true, [], badgeData));
-    });
   },
   handleMapClick: function(event){
 
@@ -80,7 +71,7 @@ component.exports = {
   },
   addBadge: function(latitude, longitude){
     // Tell the map to put a marker for add badge
-    this.findComponent('map').addBadge(latitude, longitude);
+    this.findComponent('map').moveNewBadgeMarker(latitude, longitude);
 
     // Show the form and update the coordinates
     this.showFormSidebar();
@@ -88,9 +79,26 @@ component.exports = {
   },
   showFormSidebar: function(){
     this.set('isFormSidebarVisible', true);
+    this.hideDataSidebar();
   },
   hideFormSidebar: function(){
     this.set('isFormSidebarVisible', false);
+  },
+  showDataSidebar: function(){
+    this.set('isDataSidebarVisible', true);
+    this.hideFormSidebar();
+  },
+  hideDataSidebar: function(){
+    this.set('isDataSidebarVisible', false);
+  },
+  handleMarkerClick: function(markerId){
+    this.showDataSidebar();
+    CurrentBadgeStore.update({
+      id: markerId
+    });
+  },
+  handleBadgeDeleteSuccess: function(){
+    this.hideDataSidebar();   
   },
 };
 
