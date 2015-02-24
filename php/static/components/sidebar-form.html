@@ -1,5 +1,4 @@
 <div class="sidebar {{# visible }}visible{{/}}">
-  <a class="close" on-click="close">&times;</button>
   
   <h4>Add a Badge</h4>
   <form on-submit="addBadge">
@@ -39,7 +38,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 form-group">
-        <input type="text" class="form-control" placeholder="Types of trees in the area" value="{{input.types}}" />
+        <input type="text" class="form-control" placeholder="Types of trees in the area (e.g. Narra, Mahogany, Mangrove)" value="{{input.types}}" />
         {{# errors.types.length }}
         <ul class="alert alert-warning">
           {{#errors.types}}<li>{{.}}</li>{{/}}
@@ -64,7 +63,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 form-group">
-        <input type="text" class="form-control" placeholder="Number of trees in the area" value="{{input.quantity}}" />
+        <input type="text" class="form-control" placeholder="Tree population (e.g. 10,000)" value="{{input.quantity}}" />
         {{# errors.quantity.length }}
         <ul class="alert alert-warning">
           {{#errors.quantity}}<li>{{.}}</li>{{/}}
@@ -85,6 +84,7 @@
     <div class="row">
       <div class="col-sm-12 form-group text-center">
         <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-link" on-click="close">Cancel</button>
       </div>
     </div>
   </form>
@@ -110,6 +110,9 @@
 .alert{
   padding: 5px 5px 5px 2em;
   margin: 5px 0 0;
+}
+.btn-link{
+  color: #FFF;
 }
 </style>
 
