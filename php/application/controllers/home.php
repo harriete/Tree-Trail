@@ -8,7 +8,9 @@ class Home extends TT_Controller {
   }
 
   public function index_get(){
-    $this->render('home',[],[
+    $this->render('home',[
+
+    ],[
       'layout' => 'layout'
     ]);
   }

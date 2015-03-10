@@ -11,14 +11,6 @@
 
 
   <style>
-    html, body, .content {
-      position:relative;
-      width : 100%;
-      height: 100%;
-    }
-    body{
-      padding-top: 50px;
-    }
   {{$ extra_inline_styles }}{{/ extra_inline_styles }}
   </style>
 
@@ -56,12 +48,10 @@
 
   <script src="<?= base_url('static/node_modules/jquery/dist/jquery.min.js'); ?>"></script>
   <script src="<?= base_url('static/node_modules/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
-  <script src="<?= base_url('static/node_modules/requirejs/require.js'); ?>"></script>
   {{$ extra_libs }}{{/ extra_libs }}
 
   {{$ extra_plugins }}{{/ extra_plugins }}
 
-  <script src="<?= base_url('static/scripts/home/main.js'); ?>"></script>
   {{$ extra_scripts }}{{/ extra_scripts }}
 
 </body>
