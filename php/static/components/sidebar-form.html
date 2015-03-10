@@ -33,7 +33,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 form-group text-center">
-        <button type="button" class="btn btn-default">Upload photos</button>
+        <picture-upload />
       </div>
     </div>
     <div class="row">
@@ -165,6 +165,9 @@ component.exports = {
       email:'',
     },
     errors : null,
+  },
+  components : {
+    'picture-upload': require('rvc!components/picture-upload'),
   },
   oninit: function(){
     this.on('addBadge', this.addBadge);
