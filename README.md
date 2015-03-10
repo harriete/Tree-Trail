@@ -3,97 +3,102 @@ Tree-Trail
 
 ## Development setup
 
-This should be the only things you need to do to get a minimum setup.
-
-1. Install the following software:
+1. Download and install the following software:
     
     - [XAMPP](https://www.apachefriends.org/download.html)
-    - [NodeJS](http://nodejs.org/download/) appropriate for your system.
+    - [NodeJS](http://nodejs.org/download/)
     - [Git](https://msysgit.github.io/)
+    - [Composer](https://getcomposer.org/doc/00-intro.md#using-the-installer)
 
-2. Fork the repository on Github. On the main repo, click on "Fork" on the top right.
+2. On the top right of this page, click on "Fork". This makes a "photocopy" of the code in this repo into your account. If a modal window appears with a selection of accounts and organizations, choose your account.
 
-3. Clone your fork of the repository:
+3. Go to `http://github.com/[YOUR_GITHUB_USERNAME]/Tree-Trail`. On the bottom of the sidebar on the right, copy the URL. *This is your fork's Git url.*
+
+4. Open `cmd` and `cd` to your XAMPP's `htdocs` directory and clone your fork.
    
     ```shell
-    # Usually C:\XAMPP\htdocs or D:\XAMPP\htdocs, depending on where you placed it
-    cd [/path/to/your/XAMPP/htdocs] 
-    git clone https://github.com/[your username]/Tree-Trail.git
+    # Usually C:\XAMPP\htdocs. Change the drive if necessary.
+    cd [PATH_TO_HTDOCS]
+    git clone [YOUR_FORK_URL]
     ```
 
-   It will ask for your Github username and password *but the password will not print on the terminal*. Just provide accordingly.
+   It will ask for your Github username and password. The password won't appear when you type, so just type properly.
    
-4. Stop Apache. Locate the file called `httpd.conf` inside your XAMPP installation. In that file, look for `DocumentRoot`. It should have `C:/XAMPP/htdocs` by default. Append `/Tree-Trail/php` to it. It should now be `C:/XAMPP/htdocs/Tree-Trail/php`
+5. Open your XAMPP's control panel and stop Apache. Then go to your XAMPP directory and look for `httpd.conf`. Open this file, look for "`DocumentRoot`" and add `/Tree-Trail/php`.
 
-5. Add the following environment variables and values to your system:
+    ```shell
+    # Before
+    DocumentRoot "C:\XAMPP\htdocs"
+
+    # After
+    DocumentRoot "C:\XAMPP\htdocs\Tree-Trail\php"
+    ```
+
+    Afterwards, restart Apache via the XAMPP control panel.
+
+6. [Add the following environment variables](https://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/sysdm_advancd_environmnt_addchange_variable.mspx?mfr=true) and values to your system. 
 
     - `OPENSHIFT_MYSQL_DB_HOST` : `localhost`
     - `OPENSHIFT_MYSQL_DB_PORT` : `3306`
-    - `OPENSHIFT_MYSQL_DB_USERNAME` : whatever user you use on your local machine
-    - `OPENSHIFT_MYSQL_DB_PASSWORD` : whatever password you provided to that local user
-    - `OPENSHIFT_MYSQL_DB_NAME` : whatever name you provided your local database
-    - `OPENSHIFT_SECRET_TOKEN` : a random 32-character string for encryption purposes
-    
-    These values are specific to your local machine. During deployment to the server, the server will use *its own values* for these, ensuring that your db passwords will stay yours, while the server passwords stays with it.
+    - `OPENSHIFT_MYSQL_DB_USERNAME` : username you use in phpmyadmin
+    - `OPENSHIFT_MYSQL_DB_PASSWORD` : password you use in phpmyadmin
+    - `OPENSHIFT_MYSQL_DB_NAME` : name of the Tree Trail DB
+    - `OPENSHIFT_SECRET_TOKEN` : a random 32-character hex string (0-9, A-F)
 
-6. Go to the `Tree-Trail/php/static` directory and run this:
+7. To install client-side libraries, in the `cmd`, run the following:
 
-    ```shell
+    ```
+    cd C:\XAMPP\htdocs\Tree-Trail\php\static
     npm install
     ```
 
-7. Start Apache and visit `http://localhost/init_db`. This page should contain instructions on setting up your db.
+8. To install server-side libraries, in the `cmd`, run the following:
+
+    ```
+    cd C:\XAMPP\htdocs\Tree-Trail\php\application\helpers
+    composer update
+    composer require
+    ```
+
+9. Start Apache and visit `http://localhost/init_db`. This page should contain instructions on setting up your db.
 
 ## Contributing code
 
-### Fork the repo
+### Get a copy of the code
 
-At the top right of the repo page should be a "Fork" button. Click that and this repository will be "photocopied" to your Github account. Now you have a copy of the original repo.
-
-### Getting a copy for the first time (like in step 2 above)
-
-```shell
-cd [/path/to/your/XAMPP/htdocs] 
-git clone https://github.com/[your username]/Tree-Trail.git
-```
-
-- **mybranch** - Your "branch" of the project where you can play around. Name it after what you are working on.
-- **origin/development** - The branch where you want to base off your branch
-
-Copying to your local machine is done only once. Getting changes and putting them to your local, we use `git fetch`
+Steps 2-4 should provide you a copy of the code in your Github as well as on your local machine.
 
 ### Getting further updates
 
-Just do this once, add the main repo into your local machine
+Once you have a local copy already via step 2-4, you do not need to clone anymore. All you need to do is grab updates from the main repo.
+
+To add a reference to the original repository, do:
 
 ```shell
 git remote add upstream https://github.com/fskreuz/Tree-Trail.git
 ```
 
-Now every time you want to get updates from the main repo, do this:
+To grab updates from the original repository, do:
 
 ```shell
+
+# Grabs code from the originalrepository
 git fetch upstream
-git rebase upstream/development mybranch
+
+# Merges the updated code onto your branch
+git rebase upstream/development
+
 ```
-
-- **fetch** - The command to download changes from the repository
-- **origin** - The repository where we get the changes (in this case, *this* GitHub repo)
-- **rebase** - The command to put in changes from the repository to your local copy
-- **origin/development** - The branch of the repository where to get changes from
-- **mybranch** - The branch you want to put in the changes.
-
-Rebase works by taking the repository changes and putting your changes on top of it, hence "rebase" (put remote changes as base of your changes).
 
 ### Committing changes
 
-Once you have made your changes in the code, your code will need to be put to the "staging area". In order to do that, for each file do:
+Once you have made your changes in your local machine, your code will need to be placed in the "staging area". In order to do that, for each file do:
 
 ```shell
 git add path/to/file/you/want/added
 ```
 
-You can select whatever file you need to stage. you may even leave out some files. Now, in order for those staged files to be committed to history, do:
+The staging area is where you finalize what you want to put into history. To finally put into history, do:
 
 ```shell
 git commit -m "MESSAGE HERE"
@@ -101,14 +106,12 @@ git commit -m "MESSAGE HERE"
 
 Replace `MESSAGE HERE` with a meaningful message describing your changes.
 
-### Sharing your changes
+### Sending your changes
+
+The following code will push your changes to your fork of the repo:
 
 ```shell
-git push origin mybranch
+git push origin
 ```
 
-This pushes your branch
-
-### Inform others
-
-When pushing your branch changes to the repository, inform others about your changes so that they can review your code before putting it into the release branch.
+Afterwards, you can create a pull request on Github, comparing the development branch of the original repo with the development branch of your repo.
