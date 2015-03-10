@@ -1,7 +1,8 @@
 {
     "name": "vagrant/helpers",
     "require": {
-        "vlucas/valitron": "~1.2"
+        "vlucas/valitron": "~1.2",
+        "mustache/mustache": "~2.5"
     },
     "authors": [
         {
