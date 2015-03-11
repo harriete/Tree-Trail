@@ -101,8 +101,10 @@
 
   <script src="<?= base_url('static/node_modules/jquery/dist/jquery.min.js'); ?>"></script>
   <script src="<?= base_url('static/node_modules/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
-<<<<<<< HEAD
-=======
+  {{$ extra_libs }}{{/ extra_libs}}
+  
+  {{$ extra_plugins }}{{/ extra_plugins }}
+
   <script>
     $(document).ready(function(){
       $('#login-trigger').click(function(){
@@ -111,11 +113,6 @@
       })
     });
   </script>
->>>>>>> updated to recent copy of ammil and added UI for login
-  {{$ extra_libs }}{{/ extra_libs }}
-
-  {{$ extra_plugins }}{{/ extra_plugins }}
-
   {{$ extra_scripts }}{{/ extra_scripts }}
 
 </body>
