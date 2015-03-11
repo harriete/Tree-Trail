@@ -67,19 +67,7 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-<<<<<<< HEAD
           <li><a href="<?= base_url('/statistics'); ?>">Statistics</a></li>
-          <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="<?= base_url('/dashboard'); ?>">Admininstrator Dashboard</a></li>
-=======
-          <?php if( == 'still login'):
-			echo '<li><a href="';
-			echo base_url('/statistics');
-			echo '">Statistics</a></li>';
-			endif;
-		  ?>
           <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -103,7 +91,6 @@
 			  </div>                
 		  </li>
           <!-- <li><a href="<?= base_url('/dashboard'); ?>">Admininstrator Dashboard</a></li>-->
->>>>>>> updated to recent copy of ammil and added UI for login
         </ul>
       </div>
 
