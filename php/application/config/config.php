@@ -357,11 +357,20 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = getenv('OPENSHIFT_HAPROXY_IP');
 
+/*
+| -------------------------------------------------------------------
+| Native Auto-load
+| -------------------------------------------------------------------
+| 
+| Nothing to do with cnfig/autoload.php, this allows PHP autoload to work
+| for base controllers and some third-party libraries.
+|
+*/
 
 function __autoload($class){
-  if(substr($class, 0, 3) === 'CI_') return;
+  if(strpos($class, 'CI_') === 0) return;
   if(!file_exists($file = APPPATH . 'core/' . $class . EXT)) return;
-  include $file;
+  include_once $file;
 }
 
 /* End of file config.php */

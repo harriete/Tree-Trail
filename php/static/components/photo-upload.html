@@ -1,0 +1,87 @@
+<div class="uploaded">
+  {{# photos }}
+  <div class="photo">
+    <img src="{{path}}/{{.}}" />
+    <button type="button" class="close" on-click="removePhoto">&times;</button>
+  </div>
+  {{/}}
+</div>
+
+<button type="button" class="btn btn-default" on-click="openFileDialog">Upload photos</button>
+<input type="file" on-change="uploadSelectedFile" accept=".png,.jpg,.gif" />
+
+<style type="text/css">
+input[type=file] {
+  display: none;
+}
+.uploaded{
+  text-align: left;
+}
+.photo{
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+}
+.photo img{
+  display: block;
+  width: 100%;
+  position: relative;
+}
+.close{
+  color: #FFF;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 1;
+}
+</style>
+
+<script>
+component.exports = {
+  isolated: true,
+  data: {
+    path: '',
+    photos: [],
+  },
+  oninit: function() {
+    this.on('openFileDialog', this.openFileDialog);
+    this.on('uploadSelectedFile', this.uploadSelectedFile);
+    this.on('removePhoto', this.removePhoto);
+  },
+  openFileDialog: function(event) {
+    $(this.find('input[type=file]')).trigger('click');
+  },
+  removePhoto: function(event){
+    var photos = this.get('photos');
+    photos.splice(photos.indexOf(event.context),1);
+  },
+  uploadSelectedFile: function(event) {
+    var component = this;
+    var fileInput = this.find('input[type=file]');
+    var formData = new FormData();
+    var file = fileInput.files[0];
+
+    if (!file) return;
+
+    formData.append('file', file);
+
+    $.ajax({
+      url: "/photos",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(filename) {
+        component.push('photos', filename);
+      },
+      error: function(jqXHR, textStatus, errorMessage) {
+        debugger;
+      }
+    });
+
+  },
+};
+</script>

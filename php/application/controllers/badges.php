@@ -5,7 +5,7 @@ class Badges extends REST_Controller {
   public function __construct(){
     parent::__construct();
 
-    $this->load->model('Badges_model', 'badges');
+    $this->load->model('Badges_Model', 'badges');
   }
 
   public function index_get(){
@@ -15,7 +15,7 @@ class Badges extends REST_Controller {
   public function index_post(){
     $data = $this->post();
     $validator = new Valitron\Validator($data);
-    $validator->rule('required', ['name', 'latitude', 'longitude', 'types', 'abundance', 'quantity', 'email']);
+    $validator->rule('required', ['name', 'latitude', 'longitude', 'photos', 'types', 'abundance', 'quantity', 'email']);
     $validator->rule('numeric', ['latitude', 'longitude', 'quantity']);
     $validator->rule('email', ['email']);
     $validator->rule('min', 'quantity', 0);

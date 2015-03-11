@@ -4,8 +4,7 @@ class Home extends TT_Controller {
 
   public function __construct(){
     parent::__construct();
-    $this->load->helper('url');
-	$this->load->model('session_model', 'session');
+  	$this->load->model('session_model', 'session');
   }
 
   public function index_get(){

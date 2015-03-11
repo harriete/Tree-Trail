@@ -33,7 +33,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 form-group text-center">
-        <picture-upload />
+        <photo-upload path="/static/uploaded_photos" photos="{{input.photos}}" />
       </div>
     </div>
     <div class="row">
@@ -115,9 +115,7 @@
   color: #FFF;
 }
 </style>
-
 <script>
-
 var Badges = require('stores/badges');
 var validate = require('validate');
 var validationRules = {
@@ -132,6 +130,9 @@ var validationRules = {
     presence: true,
     numericality: true,
   },
+  photos: {
+    presence: true,
+  },
   types: {
     presence: true,
   },
@@ -141,7 +142,7 @@ var validationRules = {
   },
   quantity: {
     presence: true,
-    numericality : {
+    numericality: {
       onlyInteger: true,
       greaterThanOrEqualTo: 0,
     },
@@ -152,48 +153,52 @@ var validationRules = {
   },
 };
 
+function createBlankInput() {
+  return {
+    name: '',
+    latitude: '',
+    longitude: '',
+    types: '',
+    abundance: '',
+    quantity: '',
+    email: '',
+    photos: []
+  };
+}
+
 component.exports = {
   isolated: true,
-  data :{
-    input:{
-      name: '',
-      latitude: '',
-      longitude: '',
-      types:'',
-      abundance:'',
-      quantity:'',
-      email:'',
-    },
-    errors : null,
+  data: {
+    input: createBlankInput(),
+    errors: null,
   },
-  components : {
-    'picture-upload': require('rvc!components/picture-upload'),
+  components: {
+    'photo-upload': require('rvc!components/photo-upload'),
   },
-  oninit: function(){
+  oninit: function() {
     this.on('addBadge', this.addBadge);
   },
-  onrender: function(){
+  onrender: function() {
     $('[title]').tooltip();
   },
-  setCoordinates: function(latitude, longitude){
+  setCoordinates: function(latitude, longitude) {
     this.set('input.latitude', latitude);
     this.set('input.longitude', longitude);
   },
-  addBadge: function(event){
+  addBadge: function(event) {
     event.original.preventDefault();
     var component = this;
     var badgeData = this.get('input');
     var errors = validate(badgeData, validationRules);
     this.set('errors', errors ? errors : null);
-    if(!errors){
+    if (!errors) {
       component.fire('submit');
-      Badges.create(badgeData).then(function(response){
+      Badges.create(badgeData).then(function(response) {
         component.fire('submitsuccess', response);
-      }, function(error){
+      }, function(error) {
         component.fire('submiterror', error);
       });
     }
   },
 };
-
 </script>

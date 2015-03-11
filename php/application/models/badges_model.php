@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Badges_model extends CI_Model {
+class Badges_Model extends CI_Model {
 
-  private $tableName = 'locations';
-  private $tableId = 'id';
+  public $tableName = 'locations';
+  public $tableId = 'id';
 
   public function create($data = []){
     $success = $this->db->insert($this->tableName, $data);
