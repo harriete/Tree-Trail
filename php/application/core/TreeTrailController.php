@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class TT_Controller extends REST_Controller{
+class TreeTrailController extends RestController{
 
   public function render($view = NULL, $data = [], $partials = []){
 
