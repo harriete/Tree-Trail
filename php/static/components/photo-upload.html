@@ -7,7 +7,8 @@
   {{/}}
 </div>
 
-<button type="button" class="btn btn-default" on-click="openFileDialog">Upload photos</button>
+{{^uploading}}<button type="button" class="btn btn-default" on-click="openFileDialog">Upload photos</button>{{/}}
+{{#uploading}}<button type="button" class="btn btn-default">Uploading. Please wait.</button>{{/}}
 <input type="file" on-change="uploadSelectedFile" accept=".png,.jpg,.gif" />
 
 <style type="text/css">
@@ -45,6 +46,7 @@ component.exports = {
   data: {
     path: '',
     photos: [],
+    uploading: false,
   },
   oninit: function() {
     this.on('openFileDialog', this.openFileDialog);
@@ -68,18 +70,18 @@ component.exports = {
 
     formData.append('file', file);
 
+    component.set('uploading', true);
     $.ajax({
       url: "/photos",
       type: "POST",
       data: formData,
       processData: false,
       contentType: false,
-      success: function(filename) {
-        component.push('photos', filename);
-      },
-      error: function(jqXHR, textStatus, errorMessage) {
-        debugger;
-      }
+    }).success(function(filename){
+      component.push('photos', filename);
+    }).always(function(){
+      $(fileInput).wrap('<form>').parent('form').trigger('reset').find('input').unwrap();
+      component.set('uploading', false);
     });
 
   },

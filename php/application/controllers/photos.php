@@ -2,10 +2,6 @@
 
 class Photos extends TT_Controller{
 
-  public function index_get(){
-    echo 'rar';
-  }
-
   public function index_post(){
 
     // Load upload library with the following config

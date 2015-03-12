@@ -6,6 +6,7 @@ class Badges extends REST_Controller {
     parent::__construct();
 
     $this->load->model('Badges_Model', 'badges');
+    $this->load->model('Photos_Model', 'photos');
   }
 
   public function index_get(){
@@ -15,18 +16,31 @@ class Badges extends REST_Controller {
   public function index_post(){
     $data = $this->post();
     $validator = new Valitron\Validator($data);
-    $validator->rule('required', ['name', 'latitude', 'longitude', 'photos', 'types', 'abundance', 'quantity', 'email']);
+    $validator->rule('required', ['name', 'latitude', 'longitude', 'types', 'photos', 'abundance', 'quantity', 'email']);
     $validator->rule('numeric', ['latitude', 'longitude', 'quantity']);
     $validator->rule('email', ['email']);
     $validator->rule('min', 'quantity', 0);
     $validator->rule('in', 'abundance', ['abundant', 'average', 'scarce']);
 
+
     if($validator->validate()){
+      // Remove photos for the badge create
+      $photos = $data['photos'];
+      unset($data['photos']);
       $savedData = $this->badges->create($data);
-      if($savedData) $this->response($savedData, 201);
-      else $this->response(null, 400);
-    } else {
-      $this->response($validator->errors(), 400);
+
+      if(!$savedData){
+        $this->response(null, 500);
+      } else {
+        $savedPhotos = $this->savePhotos($savedData['id'], $photos);
+        if(!$savedPhotos){
+          $this->response(null, 500);
+        } else {
+          // Append back photos for the return data
+          $savedData['photos'] = $photos;
+          $this->response($savedData, 201);
+        }
+      }
     }
   }
 
@@ -63,6 +77,17 @@ class Badges extends REST_Controller {
     } else {
       $this->response($validator->errors(), 400);
     }
+  }
+
+  private function savePhotos($badgeId = '', $photos = []){    
+    return !in_array(false, array_map(function($photo) use ($badgeId){
+      return $this->photos->create([
+        'image_path' => $photo,
+        'location_id' => $badgeId,
+        'caption' => '',
+        'uploader_ip' => '',
+      ]);
+    }, $photos));
   }
 
 }
