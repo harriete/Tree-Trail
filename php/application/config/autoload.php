@@ -63,7 +63,7 @@ $autoload['libraries'] = array('database', 'table', 'pagination', 'form_validati
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','form','html','date','composer');
+$autoload['helper'] = array('composer','url','form','html','date');
 
 /*
 | -------------------------------------------------------------------

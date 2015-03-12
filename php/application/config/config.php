@@ -91,7 +91,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 
 /*
@@ -315,7 +315,7 @@ $config['csrf_expire'] = 7200;
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config['compress_output'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -356,22 +356,6 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = getenv('OPENSHIFT_HAPROXY_IP');
-
-/*
-| -------------------------------------------------------------------
-| Native Auto-load
-| -------------------------------------------------------------------
-| 
-| Nothing to do with cnfig/autoload.php, this allows PHP autoload to work
-| for base controllers and some third-party libraries.
-|
-*/
-
-function __autoload($class){
-  if(strpos($class, 'CI_') === 0) return;
-  if(!file_exists($file = APPPATH . 'core/' . $class . EXT)) return;
-  include_once $file;
-}
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
