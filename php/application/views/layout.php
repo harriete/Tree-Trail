@@ -18,6 +18,9 @@
     #login-form .login-row:first-child{
       padding-top: 15px;
     }
+    body{
+      padding-top: 50px;
+    }
   {{$ extra_inline_styles }}{{/ extra_inline_styles }}
   </style>
 
