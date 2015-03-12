@@ -20,8 +20,9 @@ class Manage_users extends CI_Controller {
 			$this->load->view('footer');
   }
 
-	public function manage_users_modal($id) {
+	public function manage_users_modal() {
 
+		$id = $this->uri->segment(3);
 		$submit = $this->input->post("submit");
 	
 		$this->form_validation->set_error_delimiters("", "");

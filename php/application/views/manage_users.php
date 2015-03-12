@@ -152,7 +152,7 @@
              "Dismiss</button>");
     } else {
       $.ajax({
-        url: "<?php echo base_url(); ?>/index.php/manage_users/manage_users_modal/"+id,
+        url: "<?php echo base_url('/manage_users/manage_users_modal'); ?>/"+id,
         type: "POST",
         data: {
         },
