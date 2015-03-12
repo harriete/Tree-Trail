@@ -59,7 +59,6 @@
                 </div>
                 <div class="login-row">
                   <button type="submit" class="btn btn-primary">Login</button>
-                  <span>New User? <a href="<?= base_url('register') ?>">Register</a></span>
                 </div>
               </form>
             </div>
