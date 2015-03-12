@@ -11,40 +11,13 @@
 
 
   <style>
-    .btn {
-	float: right;
-	color: black;
-	font: bold 14px Arial, Helvetica;
-	cursor: pointer;
-}
-  
-    #login-content {
-      display: none;
-      position: absolute;
-	  top: 120%;
-	  right: 15%;
-	  background: #000;
-	  opacity: 0.9;
-	  padding: 15px;
-	  box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
+    #login-form .login-row{
+      width: 250px;
+      padding: 0 15px 15px;
     }
-	
-	#inputs input {
-  background: #f1f1f1;
-  padding: 6px 5px;
-  margin: 0 0 5px 0;
-  width: 238px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-shadow: 0 1px 1px #ccc inset;
-}
-
-#inputs input:focus {
-  background-color: #fff;
-  border-color: #e8c291;
-  outline: none;
-  box-shadow: 0 0 0 1px #e8c291 inset;
-}
+    #login-form .login-row:first-child{
+      padding-top: 15px;
+    }
   {{$ extra_inline_styles }}{{/ extra_inline_styles }}
   </style>
 
@@ -71,26 +44,23 @@
           <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-		  <li id="login">
-		    <a id="login-trigger" href="#">
-			  <button class="btn">Login</button>
-			</a>
-			  <div id="login-content">
-				<form action="login" method="post">
-				  <fieldset id="inputs">
-					<input id="username" type="text" name="username" placeholder="Username" required>   
-					<input id="password" type="password" name="password" placeholder="Password" required>
-				  </fieldset>
-				  <br />
-				  <fieldset id="actions">
-					<input type="submit" class="btn" id="submit" value="Login">
-					<span>New User?</span>
-					<span><a href="#">Register.</a></span>
-				  </fieldset>
-				</form>
-			  </div>                
-		  </li>
-          <!-- <li><a href="<?= base_url('/dashboard'); ?>">Admininstrator Dashboard</a></li>-->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
+            <div class="dropdown-menu">
+              <form id="login-form" action="<?= base_url('login') ?>" method="post">
+                <div class="login-row">
+                  <input type="text" class="form-control" name="username" placeholder="Username" required>
+                </div>
+                <div class="login-row">
+                  <input type="password" class="form-control" name="password" placeholder="Password" required>
+                </div>
+                <div class="login-row">
+                  <button type="submit" class="btn btn-primary">Login</button>
+                  <span>New User? <a href="<?= base_url('register') ?>">Register</a></span>
+                </div>
+              </form>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -105,14 +75,6 @@
   
   {{$ extra_plugins }}{{/ extra_plugins }}
 
-  <script>
-    $(document).ready(function(){
-      $('#login-trigger').click(function(){
-        $(this).next('#login-content').slideToggle();
-        $(this).toggleClass('active');
-      })
-    });
-  </script>
   {{$ extra_scripts }}{{/ extra_scripts }}
 
 </body>
