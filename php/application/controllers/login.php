@@ -17,7 +17,11 @@ class Login extends TreeTrailController {
     $canLogin = $this->loginUser($username, $password);
 
     if($isLoginValid && $canLogin){
-      header(base_url('dashboard'));
+	  $this->load->model('session_model', 'session_m');
+
+      $this->session_m->initSession($username, $password);
+
+      redirect('/');
     } else {
       $this->renderPageWithData([
         'error' => 'Invalid login data. Please try again.'
@@ -33,48 +37,9 @@ class Login extends TreeTrailController {
   }
 
   private function loginUser($username = '', $password = ''){
-    // Create a model for users and use that to search for a user with the given
-    // username and password.
-    return false;
-  }
+    $this->load->model("login_model", "login_m");
 
-/*
-  function check_if_exist($username) {
-    $password = $this->input->post('password');
-    
-    $this->load->model("users_model", "users_m");
-    
-    $query = $this->users_m->validate($username, $password);
-    
-    if($query):
-      return TRUE;
-    else:
-      return FALSE;
-    endif;
+    return $this->login_m->validateUser($username, $password);
   }
   
-  function check_database($password) {
-    $username = $this->input->post('username');
-    
-    $this->load->model("users_model", "users_m");
-    
-    $query = $this->users_m->validate($username, $password);
-    
-    if($query):
-      $db_sess = $this->users_m->getAllData($username);
-      
-      $sess = array(
-            'user_id' => $db_sess['id'],
-            'username'  => $db_sess['username'],
-            'type'    => $db_sess['type'],
-            'active'  => 1,
-          );
-      $this->session->set_userdata($sess);
-      
-      return TRUE;
-    else:
-      return FALSE;
-    endif;
-  }
-  */
 }

@@ -43,10 +43,17 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="<?= base_url('/statistics'); ?>">Statistics</a></li>
+		{{#isLogin}}
+		  <li><a href="<?= base_url('/statistics'); ?>">Statistics</a></li>
+		{{/isLogin}}
           <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+		{{#isLogin}}
+		<li><a href="<?= base_url('/dashboard'); ?>">Administrator Dashboard</a></li>
+		<li><a href="<?= base_url('/logout'); ?>">Logout</a></li>
+		{{/isLogin}}
+		{{^isLogin}}
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
             <div class="dropdown-menu">
@@ -63,6 +70,7 @@
               </form>
             </div>
           </li>
+		{{/isLogin}}
         </ul>
       </div>
 
