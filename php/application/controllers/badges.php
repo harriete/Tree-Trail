@@ -14,33 +14,25 @@ class Badges extends RestController {
 
   public function index_post(){
     $data = $this->post();
+
     $validator = new Valitron\Validator($data);
-    $validator->rule('required', ['name', 'latitude', 'longitude', 'types', 'photos', 'abundance', 'quantity', 'email']);
+    $validator->rule('required', ['name', 'latitude', 'longitude', 'types', 'abundance', 'quantity', 'email']);
     $validator->rule('numeric', ['latitude', 'longitude', 'quantity']);
     $validator->rule('email', ['email']);
     $validator->rule('min', 'quantity', 0);
     $validator->rule('in', 'abundance', ['abundant', 'average', 'scarce']);
+    if(!$validator->validate()) return $this->response(null, 400);
 
+    $photos = isset($data['photos']) ? $data['photos'] : [];
+    unset($data['photos']);
+    $savedBadge = $this->badges->create($data);
+    if(!$savedBadge) return $this->response(null, 500);
+    
+    $savedPhotos = $this->savePhotos($savedBadge['id'], $photos);
+    if(!$savedPhotos) return $this->response(null, 500);
 
-    if($validator->validate()){
-      // Remove photos for the badge create
-      $photos = $data['photos'];
-      unset($data['photos']);
-      $savedData = $this->badges->create($data);
-
-      if(!$savedData){
-        $this->response(null, 500);
-      } else {
-        $savedPhotos = $this->savePhotos($savedData['id'], $photos);
-        if(!$savedPhotos){
-          $this->response(null, 500);
-        } else {
-          // Append back photos for the return data
-          $savedData['photos'] = $photos;
-          $this->response($savedData, 201);
-        }
-      }
-    }
+    $savedBadge['photos'] = $photos;
+    $this->response($savedBadge, 201);
   }
 
   public function index_put(){
@@ -55,8 +47,8 @@ class Badges extends RestController {
     $validator->rule('min', 'id', 1);
 
     if($validator->validate()){
-      $savedData = $this->badges->update($data);
-      if($savedData) $this->response($savedData, 200);
+      $savedBadge = $this->badges->update($data);
+      if($savedBadge) $this->response($savedBadge, 200);
       else $this->response(null, 400);
     } else {
       $this->response($validator->errors(), 400);
