@@ -12,7 +12,7 @@ class Login extends TreeTrailController {
     $validator->rule('required', ['username', 'password']);
     $validator->rule('lengthMin', ['username','password'], 6);
     $username = $loginData['username'];
-    $password = $loginData['password'];
+    $password = md5($loginData['password']);
     $isLoginValid = $validator->validate();
     $canLogin = $this->loginUser($username, $password);
 
