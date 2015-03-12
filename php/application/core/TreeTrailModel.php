@@ -9,8 +9,8 @@ class TreeTrailModel extends CI_Model {
     return ($success) ? $this->retrieveLastSaved($this->db->insert_id()) : $success;
   }
 
-  public function read(){
-    return $this->db->get($this->tableName)->result_array();
+  public function read($data = []){
+    return $this->db->get_where($this->tableName, $data)->result_array();
   }
 
   public function update($data = []){

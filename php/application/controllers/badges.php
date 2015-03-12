@@ -9,7 +9,7 @@ class Badges extends RestController {
   }
 
   public function index_get(){
-    $this->response($this->badges->read());
+    $this->response($this->badges->readWithPhotos());
   }
 
   public function index_post(){

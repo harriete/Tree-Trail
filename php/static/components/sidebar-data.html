@@ -1,17 +1,34 @@
 <div class="sidebar {{# visible }}visible{{/}}">
   <a href="#" class="close" on-click="deleteMarker"><span class="glyphicon glyphicon-trash"></span></button>
 
+  <h2 class="location-name">{{badge.name}}</h2>
+
   <dl>
-    <dt>{{badge.name}}</dt>
+    <dt>Tree Information</dt>
+    <dd>Types of trees: {{badge.types}}</dd>
+    <dd>Approximate tree population: {{badge.quantity}}</dd>
+    <dd>Abundance: {{badge.abundance}}</dd>
+  </dl>
+
+  <dl>
+    <dt>Location</dt>
     <dd>Longitude: {{badge.longitude}}</dd>
     <dd>Latitude: {{badge.latitude}}</dd>
-    <dd>Types of trees: {{badge.types}}</dd>
-    <dd>Abundance: {{badge.abundance}}</dd>
-    <dd>Approximate tree population: {{badge.quantity}}</dd>
   </dl>
+
+  <dl>
+    <dt>Photos</dt>
+    {{#badge.photos}}
+    <dt><img class="location-photo" src="/static/uploaded_photos/{{image_path}}" /></dt>
+    {{/}}
+  </dl>
+
 </div>
 
 <style>
+.location-name{
+  margin-top: 0;
+}
 .sidebar{
   color: #FFF;
   position: fixed;
@@ -32,8 +49,13 @@
   color: #FFF;
 }
 dt{
-  font-size: 2em;
+  font-size: 1.5em;
   text-transform: capitalize;
+}
+.location-photo{
+  display: block;
+  width: 100%;
+  padding-bottom: 15px;
 }
 </style>
 
