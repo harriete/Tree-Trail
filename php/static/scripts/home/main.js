@@ -11,11 +11,21 @@ require.config({
 });
 
 require([
-  'rvc!components/app'
-],function(TreeApp){
+  'rvc!components/app',
+  'rvc!components/badge-filter',
+],function(TreeApp, BadgeFilter){
 
   new TreeApp({
     el: '.content'
+  });
+
+  var badgeFilter = new BadgeFilter({
+    el: 'body',
+    append: true,
+  });
+
+  $('#badge-filter').on('click', function(){
+    badgeFilter.open();
   });
 
 });
