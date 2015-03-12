@@ -1,10 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Badges extends REST_Controller {
+class Badges extends RestController {
 
   public function __construct(){
     parent::__construct();
-
     $this->load->model('Badges_Model', 'badges');
     $this->load->model('Photos_Model', 'photos');
   }

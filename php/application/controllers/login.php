@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Login extends TT_Controller {
+class Login extends TreeTrailController {
 
   public function index_get(){
     $this->renderPageWithData();

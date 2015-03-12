@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Photos extends TT_Controller{
+class Photos extends TreeTrailController{
 
   public function index_post(){
 
