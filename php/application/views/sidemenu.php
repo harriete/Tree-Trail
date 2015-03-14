@@ -9,23 +9,40 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url();?>/index.php/dashboard">Admin Control Panel</a>
+                <a class="navbar-brand" href="<?php echo base_url();?>dashboard">Admin Control Panel</a>
             </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                  <?php if($active === "dashboard") echo '<li class="active">';
-                        else echo "<li>"; 
-                        echo anchor('dashboard', 'Dashboard'); ?>
-                  </li>
-                  <?php if($active === "manage_users") echo '<li class="active">';
-                        else echo "<li>"; 
-                        echo anchor('manage_users', 'Manage Users'); ?>
-                  </li>
+                  <?php if($active === "dashboard"):
+								echo '<li class="active">';
+							else:
+								echo "<li>"; 
+							endif;
+							echo anchor('dashboard', 'Dashboard'); 
+							echo '</li>';
+				  ?>
+                  <?php if($isSuperAdmin):
+								if($active === "manage_users"):
+									echo '<li class="active">';
+								else:
+									echo "<li>"; 
+								endif;
+								echo anchor('manage_users', 'Manage Users');
+								echo '</li>';
+							endif;
+					?>
                   <li>
-                    <a><i></i>Etc</a>
+                    <a href="/">Back to map</a>
                   </li>
                 </ul>
+				
+				<ul class="nav navbar-nav navbar-right">
+					{{#isLogin}}
+					<li style="position: absolute; right: 0; top: 0;"><a href="<?= base_url('/logout'); ?>">Logout</a></li>
+					{{/isLogin}}
+					{{^isLogin}}
+				</ul>
             </div>
         </nav>
 

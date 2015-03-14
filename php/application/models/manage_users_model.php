@@ -9,7 +9,7 @@ class Manage_users_model extends CI_Model {
 		date_default_timezone_set('Asia/Manila');
 		
 		$username 						= $this->input->post("_username");
-		$password						= md5('12345');
+		$password						= md5("123456");
 		$type							= 'users';
 		$lastname 						= $this->input->post("lastname");
 		$firstname 						= $this->input->post("firstname");
