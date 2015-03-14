@@ -24,6 +24,10 @@
   {{$ extra_inline_styles }}{{/ extra_inline_styles }}
   </style>
 
+  <script>
+    var isLoggedIn = {{ isLoggedIn }};
+    var canManageBadges = {{ canManageBadges }};
+  </script>
   {{$ extra_head_scripts }}{{/ extra_head_scripts }}
 
 </head>
@@ -43,18 +47,18 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-		      {{#isLogin}}
+		      {{#isLoggedIn}}
 		      <li><a href="<?= base_url('/statistics'); ?>">Statistics</a></li>
-		      {{/isLogin}}
+		      {{/isLoggedIn}}
           <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
           <li><a href="#" id="badge-filter">Filter Badges</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-      		{{#isLogin}}
+      		{{#isLoggedIn}}
       		<li><a href="<?= base_url('/dashboard'); ?>">Administrator Dashboard</a></li>
       		<li><a href="<?= base_url('/logout'); ?>">Logout</a></li>
-      		{{/isLogin}}
-      		{{^isLogin}}
+      		{{/isLoggedIn}}
+      		{{^isLoggedIn}}
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
             <div class="dropdown-menu">
@@ -71,7 +75,7 @@
               </form>
             </div>
           </li>
-		      {{/isLogin}}
+		      {{/isLoggedIn}}
         </ul>
       </div>
 
