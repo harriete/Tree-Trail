@@ -20,6 +20,7 @@
 
 <sidebar-data 
   visible="{{isDataSidebarVisible}}"
+  showManagementButtons="{{ isLoggedIn && canManageBadges }}"
   on-markerEdit=""
   on-badgedeletesuccess="handleBadgeDeleteSuccess"
 />
@@ -37,6 +38,8 @@ component.exports = {
     'sidebar-data': require('rvc!components/sidebar-data'),
   },
   data :{
+    canManageBadges: false,
+    isLoggedIn: false,
     isFormSidebarVisible: false,
     isDataSidebarVisible: false,
     badges: [],
@@ -82,7 +85,7 @@ component.exports = {
   },
   handleMarkerClick: function(markerId){
     this.showDataSidebar();
-    CurrentBadgeStore.update({
+    CurrentBadgeStore.selectBadge({
       id: markerId
     });
   },

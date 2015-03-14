@@ -16,7 +16,11 @@ require([
 ],function(TreeApp, BadgeFilter){
 
   new TreeApp({
-    el: '.content'
+    el: '.content',
+    data: {
+      isLoggedIn: window.isLoggedIn,
+      canManageBadges: window.canManageBadges,
+    },
   });
 
   var badgeFilter = new BadgeFilter({

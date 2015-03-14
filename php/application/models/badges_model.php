@@ -17,9 +17,9 @@ class Badges_model extends TreeTrailModel {
 
     if($badges && $photos){
       foreach ($badges as $index => &$badge) {
-        $badge['photos'] = array_filter($photos, function($photo) use ($badge){
+        $badge['photos'] = array_values(array_filter($photos, function($photo) use ($badge){
           return ($photo['location_id'] === $badge['id']);
-        });
+        }));
       }
     }
 

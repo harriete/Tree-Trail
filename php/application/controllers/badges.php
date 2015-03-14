@@ -31,11 +31,18 @@ class Badges extends RestController {
     $savedPhotos = $this->savePhotos($savedBadge['id'], $photos);
     if(!$savedPhotos) return $this->response(null, 500);
 
-    $savedBadge['photos'] = $photos;
-    $this->response($savedBadge, 201);
+    $badges = $this->badges->readWithPhotos();
+    $badgesInRecord = array_values(array_filter($badges, function($badge) use ($savedBadge){
+      return $badge['id'] === $savedBadge['id'];
+    }));
+    $badgeInRecord = count($badgesInRecord) ? $badgesInRecord[0] : [];
+
+    $this->response($badgeInRecord, 201);
   }
 
   public function index_put(){
+    if(!$this->isAdmin) return $this->response(null, 403);
+
     $data = $this->put();
     $validator = new Valitron\Validator($data);
     $validator->rule('required', ['id', 'name', 'latitude', 'longitude', 'types', 'abundance', 'quantity', 'email']);
@@ -46,16 +53,24 @@ class Badges extends RestController {
     $validator->rule('integer', 'id');
     $validator->rule('min', 'id', 1);
 
-    if($validator->validate()){
-      $savedBadge = $this->badges->update($data);
-      if($savedBadge) $this->response($savedBadge, 200);
-      else $this->response(null, 400);
-    } else {
-      $this->response($validator->errors(), 400);
-    }
+    $photos = isset($data['photos']) ? $data['photos'] : [];
+    unset($data['photos']);
+    $savedBadge = $this->badges->update($data);
+    if(!$savedBadge) return $this->response(null, 500);
+    
+    $savedPhotos = $this->photos->deleteWithLocationId($savedBadge['id']);
+    $savedPhotos = $this->savePhotos($savedBadge['id'], array_map(function($photo){
+      return $photo['image_path'];
+    }, $photos));
+    if(!$savedPhotos) return $this->response(null, 500);
+
+    $savedBadge['photos'] = $photos;
+    $this->response($savedBadge, 201);
   }
 
   public function index_delete(){
+    if(!$this->isAdmin) return $this->response(null, 403);
+    
     $data = ['id' => $this->uri->segment(2)];
     $validator = new Valitron\Validator($data);
     $validator->rule('integer', 'id');
@@ -70,7 +85,7 @@ class Badges extends RestController {
     }
   }
 
-  private function savePhotos($badgeId = '', $photos = []){    
+  private function savePhotos($badgeId = '', $photos = []){
     return !in_array(false, array_map(function($photo) use ($badgeId){
       return $this->photos->create([
         'image_path' => $photo,
