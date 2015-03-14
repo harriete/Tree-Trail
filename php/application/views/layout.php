@@ -25,8 +25,8 @@
   </style>
 
   <script>
-    var isLoggedIn = {{# isLoggedIn }}true{{/ isLoggedIn }}{{^ isLoggedIn }}false{{/ isLoggedIn }};
-    var canManageBadges = {{# canManageBadges }}true{{/ canManageBadges }}{{^ canManageBadges }}false{{/ canManageBadges }};
+    var isLoggedIn = true;
+    var canManageBadges = true;
   </script>
   {{$ extra_head_scripts }}{{/ extra_head_scripts }}
 

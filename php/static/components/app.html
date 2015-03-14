@@ -15,7 +15,7 @@
 <sidebar-form
   visible="{{isFormSidebarVisible}}"
   on-close="hideFormSidebar"
-  on-submitsuccess="hideFormSidebar"
+  on-submitsuccess="handleFormSuccess"
 />
 
 <sidebar-data 
@@ -52,6 +52,7 @@ component.exports = {
     this.on('handleMarkerClick', this.handleMarkerClick);
     this.on('handleMarkerDelete', this.handleMarkerDelete);
     this.on('handleBadgeDeleteSuccess', this.handleBadgeDeleteSuccess);
+    this.on('handleFormSuccess', this.handleFormSuccess);
 
   },
   handleMapClick: function(event){
@@ -91,6 +92,10 @@ component.exports = {
   },
   handleBadgeDeleteSuccess: function(){
     this.hideDataSidebar();   
+  },
+  handleFormSuccess: function(){
+    this.hideFormSidebar();
+    alert('The location has successfully been submitted and is awaiting admin moderation');
   },
 };
 

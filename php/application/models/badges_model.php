@@ -26,4 +26,10 @@ class Badges_model extends TreeTrailModel {
     return $badges;
   }
 
+  public function readWithPhotosApproved(){
+    return array_values(array_filter($this->readWithPhotos(), function($badge){
+      return !is_null($badge['approved']);
+    }));
+  }
+
 }

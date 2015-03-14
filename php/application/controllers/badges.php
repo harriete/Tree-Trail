@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Badges extends RestController {
+class Badges extends TreeTrailController {
 
   public function __construct(){
     parent::__construct();
@@ -9,7 +9,8 @@ class Badges extends RestController {
   }
 
   public function index_get(){
-    $this->response($this->badges->readWithPhotos());
+    $badges = $this->isAdmin ? $this->badges->readWithPhotos() : $this->badges->readWithPhotosApproved();
+    $this->response($badges);
   }
 
   public function index_post(){
@@ -70,7 +71,7 @@ class Badges extends RestController {
 
   public function index_delete(){
     if(!$this->isAdmin) return $this->response(null, 403);
-    
+
     $data = ['id' => $this->uri->segment(2)];
     $validator = new Valitron\Validator($data);
     $validator->rule('integer', 'id');
