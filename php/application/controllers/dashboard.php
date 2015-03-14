@@ -8,12 +8,14 @@ class Dashboard extends CI_Controller {
   }
 
   public function index(){
+	  $this->load->model('session_model', 'session_m');
 
 			$users = $this->users->get_all();
 			$users_table = $this->users->pretty($users);
 
 			$data["users"] 		= $users_table;
 			$data["active"] 	= "dashboard";
+			$data["isSuperAdmin"] = $this->session_m->isSuperAdmin();
 			$data["users_count"] = $this->users->getUsersCount();
 			$this->load->view('header');			
 			$this->load->view('sidemenu', $data);
