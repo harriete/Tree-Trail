@@ -15,12 +15,11 @@
 <sidebar-form
   visible="{{isFormSidebarVisible}}"
   on-close="hideFormSidebar"
-  on-submitsuccess="handleFormSuccess"
+  on-submitsuccess="hideFormSidebar"
 />
 
 <sidebar-data 
   visible="{{isDataSidebarVisible}}"
-  showManagementButtons="{{ isLoggedIn && canManageBadges }}"
   on-markerEdit=""
   on-badgedeletesuccess="handleBadgeDeleteSuccess"
 />
@@ -38,8 +37,6 @@ component.exports = {
     'sidebar-data': require('rvc!components/sidebar-data'),
   },
   data :{
-    canManageBadges: false,
-    isLoggedIn: false,
     isFormSidebarVisible: false,
     isDataSidebarVisible: false,
     badges: [],
@@ -52,7 +49,6 @@ component.exports = {
     this.on('handleMarkerClick', this.handleMarkerClick);
     this.on('handleMarkerDelete', this.handleMarkerDelete);
     this.on('handleBadgeDeleteSuccess', this.handleBadgeDeleteSuccess);
-    this.on('handleFormSuccess', this.handleFormSuccess);
 
   },
   handleMapClick: function(event){
@@ -86,16 +82,12 @@ component.exports = {
   },
   handleMarkerClick: function(markerId){
     this.showDataSidebar();
-    CurrentBadgeStore.selectBadge({
+    CurrentBadgeStore.update({
       id: markerId
     });
   },
   handleBadgeDeleteSuccess: function(){
     this.hideDataSidebar();   
-  },
-  handleFormSuccess: function(){
-    this.hideFormSidebar();
-    alert('The location has successfully been submitted and is awaiting admin moderation');
   },
 };
 

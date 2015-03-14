@@ -23,7 +23,6 @@ var ABUNDANCE_TO_COLOR = {
   average: 'yellow',
   scarce: 'red',
   created: 'blue',
-  unapproved: 'white',
 };
 
 component.exports = {
@@ -74,7 +73,7 @@ component.exports = {
           id: badge.id,
           latitude: badge.latitude,
           longitude: badge.longitude,
-          color: ABUNDANCE_TO_COLOR[badge.approved ? badge.abundance : 'unapproved']
+          color: ABUNDANCE_TO_COLOR[badge.abundance]
         };
       }));
     });

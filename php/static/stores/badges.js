@@ -46,26 +46,6 @@ define(function(require) {
       });
 
     },
-    accept: function(data){
-      var store = this;
-
-      var badgeToUpdate = store.data.filter(function(badge){
-        return badge.id === data.id;
-      })[0];
-
-      badgeToUpdate.approved = 1;
-
-      return $.ajax({
-        type: 'put',
-        url: '/badges/' + data.id,
-        data: badgeToUpdate
-      }).then(function(badgeData){
-        $.extend(badgeToUpdate, badgeData);
-        store.trigger('change', [store.data]);
-      },function(){
-
-      });
-    },
     getState: function() {
       return this.data;
     },

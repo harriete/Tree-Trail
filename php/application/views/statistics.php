@@ -31,7 +31,7 @@
               </div>
             </div>
           </div>
-          <a href="<?php echo base_url();?>/index.php/manage_users">
+          <a href="<?php echo base_url();?>manage_users">
             <div class="panel-footer">
               <span class="pull-left">View Details</span>
               <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -53,13 +53,6 @@
               </div>
             </div>
           </div>
-          <a href="">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>
 
@@ -76,13 +69,6 @@
               </div>
             </div>
           </div>
-          <a href="">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
@@ -98,13 +84,6 @@
               </div>
             </div>
           </div>
-          <a href="">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>                    
     </div>

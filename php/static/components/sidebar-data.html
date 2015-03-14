@@ -1,19 +1,5 @@
 <div class="sidebar {{# visible }}visible{{/}}">
-
-  {{#showManagementButtons && !badge.approved}}
-  <div class="panel panel-warning management-buttons">
-    <div class="panel-body text-center">
-      <h2 class="heading">Attention</h2>
-      <p>This location has not yet been approved and is not visible on the public map view. Please review this location and select the appropriate action.</p>
-      <button type="button" class="btn btn-success" on-click="acceptMarker">Accept</button>
-      <button type="button" class="btn btn-danger" on-click="deleteMarker">Reject</button>
-    </div>
-  </div>
-  {{/}}
-
-  {{#showManagementButtons && badge.approved}}
   <a href="#" class="close" on-click="deleteMarker"><span class="glyphicon glyphicon-trash"></span></button>
-  {{/}}
 
   <h2 class="location-name">{{badge.name}}</h2>
 
@@ -71,12 +57,6 @@ dt{
   width: 100%;
   padding-bottom: 15px;
 }
-.panel{
-  background: transparent;
-}
-.management-buttons .heading{
-  margin-top: 0;
-}
 </style>
 
 <script>
@@ -92,7 +72,6 @@ component.exports = {
     var component = this;
     
     this.on('deleteMarker', this.deleteMarker);
-    this.on('acceptMarker', this.acceptMarker);
     
     component.set('badge', CurrentBadge.getState());
     CurrentBadge.on('change', function(data) {
@@ -108,17 +87,6 @@ component.exports = {
       component.fire('badgedeletesuccess', response);
     }, function(error){
       component.fire('badgedeleteerror', error);
-    });
-  },
-  acceptMarker: function(event){
-    var component = this;
-    event.original.preventDefault();
-    Badges.accept({
-      id: this.get('badge.id'),
-    }).then(function(response){
-      component.fire('badgeacceptsuccess', response);
-    },function(error){
-      component.fire('badgeaccepterror', error);
     });
   },
 };
