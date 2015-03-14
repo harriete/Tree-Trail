@@ -18,8 +18,8 @@ class TreeTrailController extends RestController{
     $isLoggedIn = $this->tree_trail_session->isLogin();
     $isSuperAdmin = $this->tree_trail_session->isSuperAdmin();
 
-    $data['isLoggedIn'] = $isLoggedIn ? 'true' : 'false';
-    $data['canManageBadges'] = ($isLoggedIn && !$isSuperAdmin) ? 'true' : 'false';
+    $data['isLoggedIn'] = $isLoggedIn ? true : false;
+    $data['canManageBadges'] = ($isLoggedIn && !$isSuperAdmin) ? TRUE : FALSE;
     
     echo $renderer->render($this->load->view($view, NULL, true), $data);
   }
