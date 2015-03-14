@@ -16,10 +16,15 @@ class Manage_users extends CI_Controller {
 			$data["users"] = $users_table;
 			$data["active"] = "manage_users";
 			$data["isSuperAdmin"] = $this->session_m->isSuperAdmin();
-			$this->load->view('header');			
-			$this->load->view('sidemenu', $data);
-			$this->load->view('manage_users', $data);			
-			$this->load->view('footer');
+			
+			if($this->session_m->isLogin() && $this->session_m->isSuperAdmin()):
+				$this->load->view('header');			
+				$this->load->view('sidemenu', $data);
+				$this->load->view('manage_users', $data);			
+				$this->load->view('footer');
+			else:
+				redirect('/');
+			endif;
   }
 
 	public function manage_users_modal() {

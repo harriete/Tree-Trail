@@ -6,14 +6,19 @@ class statistics extends TreeTrailController {
 
   public function index_get() {
 	  $this->load->model('statistics_model','s_model');
+	  $this->load->model('session_model','session_m');
 	  
 	  $stat = $this->s_model->retrieve_all();
 	  $data['num_rows'] = $stat->num_rows();
 	  $data['data'] = $stat->result_array();
 
-	  $this->render('statistics_page', $data, [
-      'layout' => 'layout'
-    ]);
+	  if($this->session_m->isLogin()):
+		$this->render('statistics_page', $data, [
+			'layout' => 'layout'
+		]);
+	  else:
+	    redirect('/');
+	  endif;
 	
   }
   

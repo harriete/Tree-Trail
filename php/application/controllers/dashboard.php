@@ -17,10 +17,14 @@ class Dashboard extends CI_Controller {
 			$data["active"] 	= "dashboard";
 			$data["isSuperAdmin"] = $this->session_m->isSuperAdmin();
 			$data["users_count"] = $this->users->getUsersCount();
-			$this->load->view('header');			
-			$this->load->view('sidemenu', $data);
-			$this->load->view('statistics', $data);			
-			$this->load->view('footer');
+			if($this->session_m->isLogin()):
+				$this->load->view('header');			
+				$this->load->view('sidemenu', $data);
+				$this->load->view('statistics', $data);			
+				$this->load->view('footer');
+			else:
+				redirect('/');
+			endif;
   }
 
 	
