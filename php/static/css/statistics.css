@@ -1,0 +1,23 @@
+.stat-container {
+    min-width: 610px;
+    margin: 20px auto;
+}
+
+.checklist {
+    width: 33%;
+    float: left;
+}
+
+header h1 {
+    font-size: 32px;
+    font-family: 'Open Sans';
+    color: #6f6f6f;
+    font-weight: 600;
+    text-shadow: 0 0 0 rgba(0,0,0,.4);
+    text-align: center;
+    margin: 10px 0 0;
+}
+
+.paddingLeftGamay {
+	padding-left:30px;
+}
