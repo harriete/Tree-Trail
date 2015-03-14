@@ -1,17 +1,12 @@
-<?php
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Statistics_model extends CI_Model
-{
+class Statistics_model extends CI_Model{
 
-	public function retrieve_all()
-	{
-		$this->db->select('quantity, name, id, types');
-		$this->db->from('locations');
-		$query = $this->db->get();
-		return $query;
-	}
+	public function retrieve_all(){
+	  $this->db->select('quantity, name, id, types');
+    $this->db->from('locations');
+    $query = $this->db->get();
+    return $query;
+  }
 	
 }
-
-
-?>
