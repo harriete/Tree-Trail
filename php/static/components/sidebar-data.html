@@ -15,6 +15,8 @@
   <a href="#" class="close" on-click="deleteMarker"><span class="glyphicon glyphicon-trash"></span></button>
   {{/}}
 
+  {{# !(showManagementButtons || badge.approved) }}<div class="alert alert-warning">This location is pending moderation and will not be visible on the map until accepted.</div>{{/}}
+
   <h2 class="location-name">{{badge.name}}</h2>
 
   <dl>
