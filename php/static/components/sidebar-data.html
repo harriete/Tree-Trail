@@ -105,8 +105,10 @@ component.exports = {
     Badges.delete({
       id: this.get('badge.id'),
     }).then(function(response){
+      alert('Location has been deleted.');
       component.fire('badgedeletesuccess', response);
     }, function(error){
+      alert('Failed to delete location.');
       component.fire('badgedeleteerror', error);
     });
   },
@@ -116,8 +118,10 @@ component.exports = {
     Badges.accept({
       id: this.get('badge.id'),
     }).then(function(response){
+      alert('Location has been accepted.');
       component.fire('badgeacceptsuccess', response);
     },function(error){
+      alert('Failed to accept location.');
       component.fire('badgeaccepterror', error);
     });
   },
