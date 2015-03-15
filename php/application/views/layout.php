@@ -53,10 +53,12 @@
 		      {{/isLoggedIn}}
           <li><a href="<?= base_url('/about'); ?>">About Project Tree Trail</a></li>
           <li><a href="#" id="badge-filter">Filter Badges</a></li>
+          <li><a href="<?= base_url('/contact'); ?>">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
       		{{#isLoggedIn}}
       		<li><a href="<?= base_url('/dashboard'); ?>">Administrator Dashboard</a></li>
+          <li><a href="<?= base_url('/contact'); ?>">Contact</a></li>
       		<li><a href="<?= base_url('/logout'); ?>">Logout</a></li>
       		{{/isLoggedIn}}
       		{{^isLoggedIn}}
