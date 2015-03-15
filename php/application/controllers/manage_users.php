@@ -34,16 +34,16 @@ class Manage_users extends CI_Controller {
 	
 		$this->form_validation->set_error_delimiters("", "");
 		if($submit == "add"):
-			$this->form_validation->set_rules("_username", "Username", "required|alpha_numeric|callback_check_if_username_exists");
+			$this->form_validation->set_rules("username", "Username", "required|alpha_numeric|callback_check_if_username_exists");
 		else:
-			$this->form_validation->set_rules("_username", "Username", "required|alpha_numeric|callback_check_if_conflict");
+			$this->form_validation->set_rules("username", "Username", "required|alpha_numeric|callback_check_if_conflict");
 		endif;
 		$this->form_validation->set_rules("lastname", "Last Name", "required");
 		$this->form_validation->set_rules("firstname", "First Name", "required");
 		$this->form_validation->set_rules("middlename", "Middle Name", "required");
-		$this->form_validation->set_rules("_gender", "Gender", "required");
+		$this->form_validation->set_rules("gender", "Gender", "required");
 		$this->form_validation->set_rules("contactnumber", "Contact Number", "required|numeric");
-		$this->form_validation->set_rules("_address", "Address", "required");
+		$this->form_validation->set_rules("address", "Address", "required");
 
 		if(!$this->form_validation->run()):
 			$data["user_data"] = $this->users->get($id);
@@ -62,6 +62,7 @@ class Manage_users extends CI_Controller {
 			if(empty($query->first_row()->username)):
 				return TRUE;
 			else:
+				 $this->form_validation->set_message(__FUNCTION__, 'The username you entered is already used.');
 				return FALSE;
 			endif;
 		else:
@@ -75,12 +76,13 @@ class Manage_users extends CI_Controller {
 		if(empty($query->first_row()->username)):
 			return TRUE;
 		else:
+			$this->form_validation->set_message(__FUNCTION__, 'The username you entered is already used.');
 			return FALSE;
 		endif;
 	}
 	
-	public function delete_user($id) {
-		
+	public function delete_user() {
+		$id = $this->uri->segment(3);		
 		if($this->users->delete($id)):
 			echo "{\"title\": \"Delete Successful\", \"body\": \"The user has been successfully deleted!\"}";
 		else:

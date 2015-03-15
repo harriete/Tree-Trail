@@ -8,15 +8,15 @@ class Manage_users_model extends CI_Model {
 	function add() {
 		date_default_timezone_set('Asia/Manila');
 		
-		$username 						= $this->input->post("_username");
-		$password						= md5("123456");
+		$username 						= $this->input->post("username");
+		$password						= md5('12345');
 		$type							= 'users';
 		$lastname 						= $this->input->post("lastname");
 		$firstname 						= $this->input->post("firstname");
 		$middlename 					= $this->input->post("middlename");
-		$gender 						= $this->input->post("_gender");
+		$gender 						= $this->input->post("gender");
 		$contactnumber				 	= $this->input->post("contactnumber");
-		$address 						= $this->input->post("_address");
+		$address 						= $this->input->post("address");
 		$user_id		 				= 1; //get from session
 
 		$this->db->trans_start();
@@ -154,8 +154,8 @@ class Manage_users_model extends CI_Model {
 	function did_change($data) {
 		$has_changed = false;
 
-		if($data["_username"] != $data["init_username"]):
-			$updated_data["users"]["username"] = $data["_username"];
+		if($data["username"] != $data["init_username"]):
+			$updated_data["users"]["username"] = $data["username"];
 			$has_changed = true;
 		endif;
 		if($data["lastname"] != $data["init_last_name"]):
@@ -170,16 +170,16 @@ class Manage_users_model extends CI_Model {
 			$updated_data["user_info"]["first_name"] = $data["firstname"];
 			$has_changed = true;
 		endif;		
-		if($data["_gender"] != $data["init_gender"]):
-			$updated_data["user_info"]["gender"] = $data["_gender"];
+		if($data["gender"] != $data["init_gender"]):
+			$updated_data["user_info"]["gender"] = $data["gender"];
 			$has_changed = true;
 		endif;
 		if($data["contactnumber"] != $data["init_contact_number"]):
 			$updated_data["user_info"]["contact_number"] = $data["contactnumber"];
 			$has_changed = true;
 		endif;
-		if($data["_address"] != $data["init_address"]):
-			$updated_data["user_info"]["address"] = $data["_address"];
+		if($data["address"] != $data["init_address"]):
+			$updated_data["user_info"]["address"] = $data["address"];
 			$has_changed = true;
 		endif;		
 		

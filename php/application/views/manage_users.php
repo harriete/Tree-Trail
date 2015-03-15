@@ -19,7 +19,7 @@
 
       <div class="row">
          <div class="col-lg-12">
-            <h2><p class = "col-xs-6 col-md-5">List of Users</p>
+            <h2><p class = "col-xs-6 col-md-5">List of Administrators</p>
               <div class="col-md-2 col-md-offset-5 text-right">
                 <?php
                   $button = array(
@@ -50,13 +50,12 @@
               $table["table_open"] = "<table class='table table-striped table-hover' id='userTable'>";
               $this->table->set_template($table);
               
-              $user_header = array("data" => "Name", "data-class" => "expand");
-              $username_header = array("data" => "Username", "data-hide" => "phone,tablet");
-              $date_header = array("data" => "Date Added", "data-hide" => "phone");
-              $action_header = array("width" => "10%", "data-hide" => "phone");
+              $user_header      = array("data" => "Name", "data-class" => "expand");
+              $username_header  = array("data" => "Username", "data-hide" => "phone,tablet");
+              $date_header      = array("data" => "Date Added", "data-hide" => "phone");
+       
               
-              
-              $this->table->set_heading($user_header, $username_header, $date_header, $action_header, $action_header);
+              $this->table->set_heading($user_header, $username_header, $date_header);
 
               echo $this->table->generate($users);
             ?>
@@ -131,10 +130,11 @@
 
 
   function show_modal(action, data, id) {
+
     id = id || -1;
     
     if(action == "add") {
-      $.post("<?php echo base_url(); ?>/index.php/manage_users/manage_users_modal/"+id, function(data) {
+      $.post("<?php echo base_url(); ?>manage_users/manage_users_modal/"+id, function(data) {
 
         modify_modal("Add User", data, "<button type='button' id="+action+" class='btn btn-default btn-primary btn-xs submit-button'"+
                          "onClick='submit(this.id);' >Add</button>");
@@ -168,37 +168,39 @@
   }
 
   function submit(action) {
-    var _username             = document.userform._username.value;
-    var lastname              = document.userform.lastname.value;
-    var firstname             = document.userform.firstname.value;
-    var middlename            = document.userform.middlename.value;
-    var _gender               = document.userform._gender.value;
-    var contactnumber         = document.userform.contactnumber.value;
-    var _address              = document.userform._address.value;
+
+    var username              = document.forms["userform"].username.value;
+    var lastname              = document.forms["userform"].lastname.value;    
+    var firstname             = document.forms["userform"].firstname.value;
+    var middlename            = document.forms["userform"].middlename.value;
+    var gender                = document.forms["userform"].gender.value;
+    var contactnumber         = document.forms["userform"].contactnumber.value;
+    var address               = document.forms["userform"].address.value;
 
 
-    var user_id                     = (action == "update") ? document.userform.user_id.value : "-1";
-    var init_username               = (action == "update") ? document.userform.init_username.value : "";
-    var init_last_name              = (action == "update") ? document.userform.init_last_name.value : "";
-    var init_first_name             = (action == "update") ? document.userform.init_first_name.value : "";
-    var init_middle_name            = (action == "update") ? document.userform.init_middle_name.value : "";
-    var init_gender                 = (action == "update") ? document.userform.init_gender.value : "";
-    var init_contact_number         = (action == "update") ? document.userform.init_contact_number.value : "";
-    var init_address                = (action == "update") ? document.userform.init_address.value : "";
-
+    var user_id                     = (action == "update") ? document.forms["userform"].user_id.value : "-1";
+    var init_username               = (action == "update") ? document.forms["userform"].init_username.value : "";
+    var init_last_name              = (action == "update") ? document.forms["userform"].init_last_name.value : "";
+    var init_first_name             = (action == "update") ? document.forms["userform"].init_first_name.value : "";
+    var init_middle_name            = (action == "update") ? document.forms["userform"].init_middle_name.value : "";
+    var init_gender                 = (action == "update") ? document.forms["userform"].init_gender.value : "";
+    var init_contact_number         = (action == "update") ? document.forms["userform"].init_contact_number.value : "";
+    var init_address                = (action == "update") ? document.forms["userform"].init_address.value : "";
+    if(username===init_username && lastname===init_last_name && firstname===init_first_name && middlename===init_middle_name && gender===init_gender && contactnumber===init_contact_number && address===init_address){
+    }else console.log("not ok");
     $(".submit-button").addClass("disabled");
     $.ajax({
-      url: "<?php echo base_url(); ?>/index.php/manage_users/manage_users_modal/"+user_id,
+      url: "<?php echo base_url(); ?>manage_users/manage_users_modal/"+user_id,
       type: "POST",
       data: {
         'id'                        : user_id,
-        '_username'                 : _username,
+        'username'                  : username,
         'lastname'                  : lastname,
         'firstname'                 : firstname,
         'middlename'                : middlename,
-        '_gender'                   : _gender,
+        'gender'                    : gender,
         'contactnumber'             : contactnumber,
-        '_address'                  : _address,
+        'address'                   : address,
         'init_username'             : init_username,
         'init_last_name'              : init_last_name,
         'init_first_name'             : init_first_name,
@@ -211,7 +213,7 @@
       success: function(data) {
         try {
           var json =  JSON.parse(data);
-          
+          console.log("ok");
           if(json.response == "Success!" || json.response == "Failure!")
             show_modal("notice", data);
             window.setTimeout(function () {
@@ -228,8 +230,7 @@
   }
   
   function delete_user(id) {
-
-    $.post("<?php echo base_url(); ?>/index.php/manage_users/delete_user/"+id, function(data) {
+    $.post("<?php echo base_url(); ?>manage_users/delete_user/"+id, function(data) {
       show_modal("notice", data);
         window.setTimeout(function () {
           $("#usermodal").modal("hide");
