@@ -156,7 +156,7 @@ function createBlankInput() {
     latitude: '',
     longitude: '',
     types: '',
-    abundance: '',
+    abundance: 'placeholder',
     quantity: '',
     email: '',
     photos: [],
@@ -174,6 +174,7 @@ component.exports = {
   },
   oninit: function() {
     this.on('addBadge', this.addBadge);
+    this.on('close', this.close);
   },
   onrender: function() {
     $('[title]').tooltip();
@@ -193,12 +194,18 @@ component.exports = {
 
     Badges.create(badgeData).then(function(response) {
       component.fire('submitsuccess', response);
-      component.set('input', createBlankInput());
+      component.clearForm();
     }, function(error) {
       component.fire('submiterror', error);
     });
 
     component.fire('submit');
   },
+  close: function(event){
+    this.clearForm();
+  },
+  clearForm: function(){
+    this.set('input', createBlankInput());
+  }
 };
 </script>
