@@ -4,8 +4,7 @@ class Logout extends TreeTrailController {
 
   public function index_get(){
     $this->session->sess_destroy();
-	
-	redirect('/');
+    redirect('/');
   }
 
   private function renderPageWithData($data = []){
@@ -13,5 +12,8 @@ class Logout extends TreeTrailController {
       'layout' => 'layout'
     ]);
   }
+
+  // Override because we want the admin to visit logout, instead of redirect
+  public function redirectToDashboardIfSuperAdmin(){}
   
 }
