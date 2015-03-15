@@ -32,9 +32,13 @@ class TreeTrailController extends RestController{
 
     // These need to be strings because Mustache doesn't convert true and false
     // to actual strings.
-    $data['isLoggedIn'] = $this->isLoggedIn ? 'true' : 'false';
-    $data['isAdmin'] = $this->isAdmin ? 'true' : 'false';
-    $data['isSuperAdmin'] = $this->isSuperAdmin ? 'true' : 'false';
+    $data['isLoggedIn'] = $this->isLoggedIn;
+    $data['isAdmin'] = $this->isAdmin;
+    $data['isSuperAdmin'] = $this->isSuperAdmin;
+
+    $data['isLoggedInString'] = $this->isLoggedIn ? 'true' : 'false';
+    $data['isAdminString'] = $this->isAdmin ? 'true' : 'false';
+    $data['isSuperAdminString'] = $this->isSuperAdmin ? 'true' : 'false';
     
     echo $renderer->render($this->load->view($view, NULL, true), $data);
   }

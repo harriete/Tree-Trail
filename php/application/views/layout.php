@@ -25,9 +25,9 @@
   </style>
 
   <script>
-    var isLoggedIn = {{ isLoggedIn }};
-    var isAdmin = {{ isAdmin }};
-    var isSuperAdmin = {{ isSuperAdmin }};
+    var isLoggedIn = {{ isLoggedInString }};
+    var isAdmin = {{ isAdminString }};
+    var isSuperAdmin = {{ isSuperAdminString }};
   </script>
   {{$ extra_head_scripts }}{{/ extra_head_scripts }}
 
