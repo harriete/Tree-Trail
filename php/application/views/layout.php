@@ -25,8 +25,9 @@
   </style>
 
   <script>
-    var isLoggedIn = true;
-    var canManageBadges = true;
+    var isLoggedIn = {{ isLoggedIn }};
+    var isAdmin = {{ isAdmin }};
+    var isSuperAdmin = {{ isSuperAdmin }};
   </script>
   {{$ extra_head_scripts }}{{/ extra_head_scripts }}
 

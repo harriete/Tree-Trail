@@ -20,7 +20,7 @@
 
 <sidebar-data 
   visible="{{isDataSidebarVisible}}"
-  showManagementButtons="{{ isLoggedIn && canManageBadges }}"
+  showManagementButtons="{{ isLoggedIn && isAdmin }}"
   on-markerEdit=""
   on-badgedeletesuccess="handleBadgeDeleteSuccess"
 />
@@ -38,7 +38,7 @@ component.exports = {
     'sidebar-data': require('rvc!components/sidebar-data'),
   },
   data :{
-    canManageBadges: false,
+    isAdmin: false,
     isLoggedIn: false,
     isFormSidebarVisible: false,
     isDataSidebarVisible: false,
@@ -95,7 +95,9 @@ component.exports = {
   },
   handleFormSuccess: function(){
     this.hideFormSidebar();
-    alert('The location has successfully been submitted and is awaiting admin moderation');
+    if(!this.get('isAdmin')){
+      alert('The location has successfully been submitted and is awaiting admin moderation');
+    }
   },
 };
 

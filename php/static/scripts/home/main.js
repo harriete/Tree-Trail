@@ -19,7 +19,7 @@ require([
     el: '.content',
     data: {
       isLoggedIn: window.isLoggedIn,
-      canManageBadges: window.canManageBadges,
+      isAdmin: window.isAdmin,
     },
   });
 

@@ -24,8 +24,12 @@ class Badges extends TreeTrailController {
     $validator->rule('in', 'abundance', ['abundant', 'average', 'scarce']);
     if(!$validator->validate()) return $this->response(null, 400);
 
+    // Remove photos from the creation process. They get saved later
     $photos = isset($data['photos']) ? $data['photos'] : [];
     unset($data['photos']);
+    
+    if($this->isAdmin) $data['approved'] = 1;
+
     $savedBadge = $this->badges->create($data);
     if(!$savedBadge) return $this->response(null, 500);
     
