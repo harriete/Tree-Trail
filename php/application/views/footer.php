@@ -1,4 +1,5 @@
-  
+  <script src="<?= base_url('static/node_modules/datatables/media/js/jquery.dataTables.js'); ?>"></script>
+
   <script src="<?= base_url('static/node_modules/jquery/dist/jquery.js'); ?>"></script>
   <script src="<?= base_url('static/node_modules/bootstrap/dist/js/bootstrap.js'); ?>"></script>
   <script src="<?= base_url('static/node_modules/moment/min/moment.min.js'); ?>"></script>

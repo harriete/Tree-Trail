@@ -10,7 +10,7 @@
         </h1>
         <ol class="breadcrumb">
           <li class="active">
-            <i class="fa fa-dashboard"></i> Welcome, User!
+            <i class="fa fa-dashboard"></i> Welcome, Super Administrator!
           </li>
         </ol>
       </div>
@@ -31,13 +31,6 @@
               </div>
             </div>
           </div>
-          <a href="<?php echo base_url();?>/index.php/manage_users">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
@@ -53,13 +46,6 @@
               </div>
             </div>
           </div>
-          <a href="">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>
 
@@ -98,13 +84,6 @@
               </div>
             </div>
           </div>
-          <a href="">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
         </div>
       </div>                    
     </div>

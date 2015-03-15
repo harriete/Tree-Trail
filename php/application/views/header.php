@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="<?= base_url('static/node_modules/bootstrap/dist/css/bootstrap-theme.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('static/node_modules/datatables/media/css/jquery.dataTables.min.css'); ?>">
 
+  <script src="<?= base_url('static/node_modules/jquery/dist/jquery.min.js'); ?>"></script>
+  <script src="<?= base_url('static/node_modules/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+  <script src="<?= base_url('static/node_modules/requirejs/require.js'); ?>"></script>
+  <script src="<?= base_url('static/scripts/home/main.js'); ?>"></script>
   <link rel="stylesheet" href="<?= base_url('static/css/manage_users.css'); ?>">
   <style>
     html, body, .content {
