@@ -57,7 +57,7 @@ Tree-Trail
     ```
     cd C:\XAMPP\htdocs\Tree-Trail\php\application\helpers
     composer update
-    composer require
+    composer install
     ```
 
 9. Start Apache and visit `http://localhost/init_db`. This page should contain instructions on setting up your db.
