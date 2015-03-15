@@ -188,14 +188,17 @@ component.exports = {
     var badgeData = this.get('input');
     var errors = validate(badgeData, validationRules);
     this.set('errors', errors ? errors : null);
-    if (!errors) {
-      component.fire('submit');
-      Badges.create(badgeData).then(function(response) {
-        component.fire('submitsuccess', response);
-      }, function(error) {
-        component.fire('submiterror', error);
-      });
-    }
+
+    if (errors) return;
+
+    Badges.create(badgeData).then(function(response) {
+      component.fire('submitsuccess', response);
+      component.set('input', createBlankInput());
+    }, function(error) {
+      component.fire('submiterror', error);
+    });
+
+    component.fire('submit');
   },
 };
 </script>
