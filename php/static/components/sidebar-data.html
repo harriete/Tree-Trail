@@ -1,5 +1,5 @@
 <div class="sidebar {{# visible }}visible{{/}}">
-
+  {{# badge }}
   {{#showManagementButtons && !badge.approved}}
   <div class="panel panel-warning management-buttons">
     <div class="panel-body text-center">
@@ -38,7 +38,7 @@
     <dt><img class="location-photo" src="/static/uploaded_photos/{{image_path}}" /></dt>
     {{/}}
   </dl>
-
+  {{/}}
 </div>
 
 <style>

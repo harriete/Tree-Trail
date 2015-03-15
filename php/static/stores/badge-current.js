@@ -6,7 +6,7 @@ define(function(require) {
   function Store() {
     var store = this;
     EventEmitter.call(this);
-    this.data = {};
+    this.data = null;
     this.badgeId = null;
     this.badges = Badges.getState();
 
@@ -28,7 +28,7 @@ define(function(require) {
       var badgeId = this.badgeId;
       this.data = this.badges.filter(function(badge){
         return badge.id == badgeId;
-      })[0] || {};
+      })[0] || null;
       this.trigger('change', [this.data]);
     }
   });
