@@ -15,3 +15,8 @@ composer install
 # Installing front-end dependencies
 cd $PROJECT/php/static
 $NPM install
+
+# Link back uploaded photos in static to the persistent storage of openshift
+# because on each deploy, this directory doesn't exist. We need to persist it.
+cd $PROJECT/php/static
+ln -s $OPENSHIFT_DATA_DIR/uploaded_photos uploaded_photos
