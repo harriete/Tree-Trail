@@ -21,7 +21,6 @@
     "requirejs": "^2.1.15",
     "rvc": "^0.2.3",
     "validate.js": "^0.4.0",
-    "wolfy87-eventemitter": "^4.2.11",
-    "DataTables": "^1.10.2"
+    "wolfy87-eventemitter": "^4.2.11"
   }
 }
